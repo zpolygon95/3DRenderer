@@ -105,8 +105,8 @@ public class camera3D
         //find the angle between direction and the output vector vertically
         double yAngle = (vertViewport / (vertResolution / 2)) * ((vertResolution / 2) - y);
         //do some trig to find the components of the output vector with respect to the orientation vectors
-        vector3D xComponent = vector3D.normalize(vector3D.add(direction, vector3D.scaleVector(directionX, Math.tan(Math.toRadians(xAngle)))));
-        vector3D yComponent = vector3D.normalize(vector3D.add(direction, vector3D.scaleVector(directionY, Math.tan(Math.toRadians(yAngle)))));
+        vector3D xComponent = vector3D.normalize(vector3D.add(direction, vector3D.scaleVector(directionX, Math.tan(xAngle))));
+        vector3D yComponent = vector3D.normalize(vector3D.add(direction, vector3D.scaleVector(directionY, Math.tan(yAngle))));
         //combine the components and normalize
         vector3D dir = vector3D.normalize(vector3D.add(xComponent, yComponent));
         return new line3D(perspective, dir);

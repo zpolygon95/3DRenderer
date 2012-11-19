@@ -26,7 +26,7 @@ class animationPane extends JPanel
         cTilt = cYaw = 0;//declaring a bunch of fun shapes and objects we use for testing
         cRoll = 0;
         cPos = new vector3D(0, 2, 0);
-        camera = new camera3D(cPos, cTilt, cYaw, cRoll, 500, 500, 45, 45);
+        camera = new camera3D(cPos, cTilt, cYaw, cRoll, 250, 250, Math.PI/4, Math.PI/4);
         camera.pointInDirection(cTilt, cYaw, cRoll);
         
         Vert = new vector3D(3, 1, 1);
@@ -45,12 +45,17 @@ class animationPane extends JPanel
         pDon = new parallelopipedon(Vert, l1, l2, l3, colors);
         
         pGram1 = new parallelogram3D(new vector3D(2, 1, 1), new vector3D(0, 1, 0), new vector3D(0, 0, 1), Color.LIGHT_GRAY);
+        pGram2 = new parallelogram3D(new vector3D(3, 1, 0), new vector3D(0, 1, 0), new vector3D(1, 0, 0), Color.LIGHT_GRAY);
+        pGram3 = new parallelogram3D(new vector3D(1, 1, 1), new vector3D(0, 1, 0), new vector3D(0, 0, 1), Color.LIGHT_GRAY);
         
-        griddedPlane3D gp = new griddedPlane3D(vector3D.ZERO_VECTOR, new vector3D(0, 1, 0), new vector3D(1, 0, 0), Color.GRAY, Color.WHITE, 0.1, 1);
+        
+        griddedPlane3D gp = new griddedPlane3D(vector3D.ZERO_VECTOR, new vector3D(0, 1, 0), new vector3D(1, 0, 0), Color.BLUE, new Color(250, 0, 250), 0.1, 1);
         
         sg = new sceneGraph(null, null, Color.BLACK, 40, Color.BLACK);
         sg.addShape(pDon);
         sg.addShape(pGram1);
+        sg.addShape(pGram2);
+        sg.addShape(pGram3);
         sg.addShape(gp);
     }
     

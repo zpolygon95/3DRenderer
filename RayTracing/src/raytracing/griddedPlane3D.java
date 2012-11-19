@@ -50,7 +50,7 @@ public class griddedPlane3D extends shape3D
         double u = (coplanarCollision.getMagnitude() * vector3D.getDotProduct(coplanarCollision, yDirection)) / yDirection.getMagnitude();
         //color the collision result accordingly
         Color c = backColor;
-        if ((Math.abs(t % divisionWidth) < lineWidth/2) || (Math.abs(u % divisionWidth) < lineWidth/2))
+        if ((Math.abs(t % divisionWidth) < lineWidth) || (Math.abs(u % divisionWidth) < lineWidth))
             c = lineColor;
         
         return new rayCollisionResult(collisionPoint, ray.getStartPoint(), c);

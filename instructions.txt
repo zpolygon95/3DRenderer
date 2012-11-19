@@ -1,0 +1,41 @@
+Instructions:
+
+I built this project using Netbeans IDE, but it would take some work in order to be able to open it in netbeans.
+
+If you would only like to run the project independent of the IDE, the look in the directory of this project:
+	/3DRenderer/RayTracing/dist/RayTracing.jar
+and run it as an executable jar file (DISCLAIMER: I am in no way responsible for what you choose to do with this file.
+If you choose to do something with it that causes damage to your computer, that is your own fault.)
+
+If you would like to be able to open the project in netbeans, create a directory
+	C:/dev/_Github/3DRenderer
+and put all of the project files in there. (untested)
+
+Keyboard inputs:
+
+q            -move camera position down
+w            -move camera position forward
+e            -move camera position up
+a            -move camera position to the left
+s            -move camera position backward
+d            -move camera position to the right
+
+Up arrow     -tilt camera angle up
+Left arrow   -rotate camera angle to the left
+Down arrow   -tilt camera angle down
+Right arrow  -rotate camera angle to the right
+Page up      -roll the camera clockwise
+Page down    -roll the camera counter-clockwise
+
+===========
+||WARNING||
+===========
+
+this project is slightly broken. the camera movement and rotation breaks if you go behind the cube in the field of view.
+I included a 250x250 version so that it would render quickly for you guys!
+keep in mind that this is all VERY rough...
+
+
+|  | |--| |  | |---  |--- |  | |\  |  |
+|--| |--| |  | |--   |--  |  | | \ |  |
+|  | |  |  \/  |---  |    |__| |  \|  X
