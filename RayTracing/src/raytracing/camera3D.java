@@ -100,15 +100,10 @@ public class camera3D
     {//check for out of bounds exceptions
         if ((x < 0 || x >= horizResolution) || (y < 0 || y >= vertResolution))
             return null;
-        //find the angle between direction and the output vector horizontally
-        double xAngle = (horizViewport / (horizResolution / 2)) * ((horizResolution / 2) - x);
-        //find the angle between direction and the output vector vertically
-        double yAngle = (vertViewport / (vertResolution / 2)) * ((vertResolution / 2) - y);
-        //do some trig to find the components of the output vector with respect to the orientation vectors
-        vector3D xComponent = vector3D.normalize(vector3D.add(direction, vector3D.scaleVector(directionX, Math.tan(xAngle))));
-        vector3D yComponent = vector3D.normalize(vector3D.add(direction, vector3D.scaleVector(directionY, Math.tan(yAngle))));
+        vector3D xComponent = vector3D.scaleVector(directionX, ((double)x - ((double)horizResolution/2))/(double)horizResolution);
+        vector3D yComponent = vector3D.scaleVector(directionY, ((double)y - ((double)vertResolution/2))/(double)vertResolution);
         //combine the components and normalize
-        vector3D dir = vector3D.normalize(vector3D.add(xComponent, yComponent));
+        vector3D dir = vector3D.add(direction, vector3D.add(xComponent, yComponent));
         return new line3D(perspective, dir);
     }
     
@@ -126,7 +121,7 @@ public class camera3D
         double Yaw = yaw % (Math.PI * 2);
         double Roll = roll % (Math.PI * 2);
         direction = vector3D.angleToVector(Yaw, Tilt);//magic stuff
-        directionX = vector3D.angleToVector(Yaw - (Math.PI/2), Roll);
+        directionX = vector3D.angleToVector(Roll, Yaw);
         directionY = vector3D.getCrossProduct(direction, directionX);
     }
     

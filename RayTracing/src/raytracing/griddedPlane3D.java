@@ -43,6 +43,8 @@ public class griddedPlane3D extends shape3D
     public rayCollisionResult getRayColorandPos(line3D ray)
     {//we find the distance along the ray much like the TriangularPlane3D class
         double scalar = vector3D.getDotProduct(normal, vector3D.subtract(zeroPoint, ray.getStartPoint())) / vector3D.getDotProduct(normal, ray.getDirection());
+        if (scalar <= 0)
+            return null;
         vector3D collisionPoint = vector3D.add(vector3D.scaleVector(ray.getDirection(), scalar), ray.getStartPoint());
         vector3D coplanarCollision = vector3D.subtract(collisionPoint, zeroPoint);
         //we calculate the "coordinates" of the collision with respect to the orientation vectors
@@ -51,9 +53,12 @@ public class griddedPlane3D extends shape3D
         //color the collision result accordingly
         Color c = backColor;
         if ((Math.abs(t % divisionWidth) < lineWidth) || (Math.abs(u % divisionWidth) < lineWidth))
+        {
             c = lineColor;
-        
-        return new rayCollisionResult(collisionPoint, ray.getStartPoint(), c);
+            return new rayCollisionResult(collisionPoint, ray.getStartPoint(), c);
+        }
+        return null;
+        //return new rayCollisionResult(collisionPoint, ray.getStartPoint(), c);
     }
     
 }

@@ -27,7 +27,6 @@ class animationPane extends JPanel
         cRoll = 0;
         cPos = new vector3D(0, 2, 0);
         camera = new camera3D(cPos, cTilt, cYaw, cRoll, 250, 250, Math.PI/4, Math.PI/4);
-        camera.pointInDirection(cTilt, cYaw, cRoll);
         
         Vert = new vector3D(3, 1, 1);
         l1 = new vector3D(0, 0, 1);
@@ -43,19 +42,22 @@ class animationPane extends JPanel
         colors[5] = Color.WHITE;
         
         pDon = new parallelopipedon(Vert, l1, l2, l3, colors);
+        parallelopipedon pDon1 = new parallelopipedon(new vector3D(3, 1, -1), l1, l2, l3, colors);
+        parallelopipedon pDon2 = new parallelopipedon(new vector3D(3, 3, -1), l1, l2, l3, colors);
+        parallelopipedon pDon3 = new parallelopipedon(new vector3D(3, 3, 1), l1, l2, l3, colors);
         
         pGram1 = new parallelogram3D(new vector3D(2, 1, 1), new vector3D(0, 1, 0), new vector3D(0, 0, 1), Color.LIGHT_GRAY);
         pGram2 = new parallelogram3D(new vector3D(3, 1, 0), new vector3D(0, 1, 0), new vector3D(1, 0, 0), Color.LIGHT_GRAY);
         pGram3 = new parallelogram3D(new vector3D(1, 1, 1), new vector3D(0, 1, 0), new vector3D(0, 0, 1), Color.LIGHT_GRAY);
         
         
-        griddedPlane3D gp = new griddedPlane3D(vector3D.ZERO_VECTOR, new vector3D(0, 1, 0), new vector3D(1, 0, 0), Color.BLUE, new Color(250, 0, 250), 0.1, 1);
+        griddedPlane3D gp = new griddedPlane3D(vector3D.ZERO_VECTOR, new vector3D(0, -5, 0), new vector3D(1, 0, 0), Color.BLUE, new Color(250, 0, 250), 0.1, 1);
         
         sg = new sceneGraph(null, null, Color.BLACK, 40, Color.BLACK);
         sg.addShape(pDon);
-        sg.addShape(pGram1);
-        sg.addShape(pGram2);
-        sg.addShape(pGram3);
+        sg.addShape(pDon1);
+        sg.addShape(pDon2);
+        sg.addShape(pDon3);
         sg.addShape(gp);
     }
     
@@ -106,32 +108,32 @@ class animationPane extends JPanel
                 repaint();
                 break;
             case KeyEvent.VK_UP:// rotate camera up
-                cTilt += 0.1;
+                cTilt += Math.PI/16;
                 camera.pointInDirection(cTilt, cYaw, cRoll);
                 repaint();
                 break;
             case KeyEvent.VK_DOWN:// rotate camera down
-                cTilt -= 0.1;
+                cTilt -= Math.PI/16;
                 camera.pointInDirection(cTilt, cYaw, cRoll);
                 repaint();
                 break;
             case KeyEvent.VK_LEFT:// rotate camera left
-                cYaw -= 0.1;
+                cYaw -= Math.PI/16;
                 camera.pointInDirection(cTilt, cYaw, cRoll);
                 repaint();
                 break;
             case KeyEvent.VK_RIGHT:// rotate camera right
-                cYaw += 0.1;
+                cYaw += Math.PI/16;
                 camera.pointInDirection(cTilt, cYaw, cRoll);
                 repaint();
                 break;
             case KeyEvent.VK_PAGE_UP:// roll camera clockwise
-                cRoll += 0.1;
+                cRoll += Math.PI/16;
                 camera.pointInDirection(cTilt, cYaw, cRoll);
                 repaint();
                 break;
             case KeyEvent.VK_PAGE_DOWN:// roll camera counter-clockwise
-                cRoll -= 0.1;
+                cRoll -= Math.PI/16;
                 camera.pointInDirection(cTilt, cYaw, cRoll);
                 repaint();
                 break;

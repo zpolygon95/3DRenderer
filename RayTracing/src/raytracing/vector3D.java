@@ -134,14 +134,15 @@ public class vector3D
     public static vector3D angleToVector(double thetaXZ, double thetaXY)
     {
         vector3D xy = new vector3D(//create a vector normal to the plane perpindicular to the XZ plane that the result vector lies in
-                round(Math.cos(thetaXZ - (Math.PI/2)), 10),
-                0,
-                round(Math.sin(thetaXZ - (Math.PI/2)), 10));
+                round(Math.cos(thetaXZ - (Math.PI/4)), 10), 0,
+                round(Math.sin(thetaXZ - (Math.PI/4)), 10));
         vector3D xz = new vector3D(//create a vector normal to the plane perpindicular to the XY plane that the result vector lies in
-                round(Math.cos(thetaXY + (Math.PI/2)), 10),
-                round(Math.sin(thetaXY + (Math.PI/2)), 10),
+                round(Math.cos(thetaXY + (Math.PI/4)), 10),
+                round(Math.sin(thetaXY + (Math.PI/4)), 10),
                 0);
-        vector3D result =  getCrossProduct(xy, xz);
+        vector3D result =  normalize(getCrossProduct(xy, xz));
+        if (result == null)
+            System.out.println(xz + "\n" + xy);
         if (result.x == -0)// signed zero is bad for these types of things
             result.x = 0;
         if (result.y == -0)
