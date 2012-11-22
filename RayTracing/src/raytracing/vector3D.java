@@ -76,10 +76,13 @@ public class vector3D
      */
     public static vector3D normalize(vector3D v)
     {
+        if(v == null)
+            System.out.println("helpvector3d");
         double m = v.getMagnitude();
         if (m == 0)
             return null;
-        return scaleVector(v, 1/m);
+        vector3D foo = scaleVector(v, 1/m);
+        return foo;
     }
     
     /**

@@ -1,4 +1,4 @@
-package RayTracing;
+package raytracing;
 
 /**
  * This object is used in the creation of 3D images by providing the ray objects to the scene graph
@@ -8,8 +8,6 @@ public class camera3D
 {
     private vector3D perspective, direction, directionX, directionY;//orientation of the camera
     private double horizResolution, vertResolution;//resolution of the images produced
-    private double horizViewport, vertViewport;//angles of the viewport of the camera
-    final double OBSERVER_DISTANCE = 5;
     
     public camera3D()
     {
@@ -18,59 +16,14 @@ public class camera3D
         
         //direction is always <1, 0, 0>
         //also direction should always have length 1.
-        direction = new vector3D(-1, 0, 0);
+        direction = new vector3D(1, 0, 0);
         
-        directionX = new vector3D(0, -1, 0);
+        directionX = new vector3D(0, 1, 0);
         directionY = new vector3D(0, 0, 1); 
                 
         horizResolution = 500;
         vertResolution = 500;
     }
-    /**
-     * creates a new camera3D object using vectors as orientation arguments
-     * @param p - the position of the camera
-     * @param d - the direction the camera is facing
-     * @param dx - the horizontal direction of the camera
-     * @param hr - the horizontal resolution of the camera
-     * @param vr - the vertical resolution of the camera
-     * @param hv - the horizontal viewport angle of the camera
-     * @param vv - the vertical viewport angle of the camera
-     */
-    /*public camera3D(vector3D p, vector3D d, int hr, int vr)
-    {
-        //assign the appropriate values
-        perspective = p;
-        direction = d;
-        directionX = new vector3D(0, 0, 0);
-        directionY = vector3D.getCrossProduct(direction, directionX);
-        horizResolution = hr;
-        vertResolution = vr;
-        //horizViewport = hv;
-        //vertViewport = vv;
-    }*/
-    
-    /**
-     * creates a new camera3D object using angles as orientation arguments
-     * @param p - the position of the camera
-     * @param tilt - if looking along the X axis, tilt is the angle between direction and the X axis in the XY plane
-     * @param yaw - if looking along the X axis, yaw is the angle between direction and the X axis in the XZ plane
-     * @param roll - if looking along the X axis, roll is the angle between direction and the Z axis in the YZ plane
-     * @param hr - horizontal resolution of the camera
-     * @param vr - the vertical resolution of the camera
-     * @param hv - the horizontal viewport angle of the camera
-     * @param vv - the vertical viewport angle of the camera
-     */
-    /*public camera3D(vector3D p, double tilt, double yaw, double roll, int hr, int vr, double hv, double vv)
-    {//assign the proper values
-        perspective = p;
-        direction = new vector3D(1, 0, 0);//vector3D.angleToVector(yaw, tilt);
-        directionX = vector3D.angleToVector(yaw + (Math.PI/2), roll);
-        directionY = vector3D.getCrossProduct(direction, directionX);
-        horizResolution = hr;
-        vertResolution = vr;
-        horizViewport = hv;
-        vertViewport = vv;
-    }*/
     
     //accessor methods
     
@@ -125,12 +78,19 @@ public class camera3D
         
         //combine the components and normalize
         //with the predetermined angle and perspective, we know that an pixel x-shift corresponds to a y-shift and a pixel y-shift corresponds to z-shift        
-        vector3D pixelPoint = vector3D.add(this.perspective, vector3D.add(vector3D.scaleVector(directionX, xRespect), vector3D.scaleVector(directionY, yRespect)));
-        vector3D dir = vector3D.add(this.getDirection(), pixelPoint);
+        vector3D pixelPoint = vector3D.add(vector3D.scaleVector(directionX, xRespect), vector3D.scaleVector(directionY, yRespect));
+        if(pixelPoint == null)
+                System.out.println("pxlpt is null");
         
-        //System.out.println(dir);
+        vector3D foo = new vector3D(0, 0, 0);
+        if(vector3D.normalize(pixelPoint) == null)
+            System.out.println("function result was null");
         
-        return new line3D(perspective, vector3D.normalize(dir));
+        if(foo == null)
+            System.out.println("foo is null");
+        
+        line3D doo = new line3D(new vector3D(0, 0, 1), new vector3D(0, 1, 0));
+        return doo;
     }
     
     //mutator methods

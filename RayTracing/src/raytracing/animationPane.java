@@ -26,7 +26,7 @@ class animationPane extends JPanel
         cTilt = cYaw = 0;//declaring a bunch of fun shapes and objects we use for testing
         cRoll = 0;
         cPos = new vector3D(0, 2, 0);
-        camera = new camera3D(cPos, cTilt, cYaw, cRoll, 250, 250, Math.PI/4, Math.PI/4);
+        camera = new camera3D();
         
         Vert = new vector3D(3, 1, 1);
         l1 = new vector3D(0, 0, 1);
@@ -107,27 +107,27 @@ class animationPane extends JPanel
                 camera.moveRight();
                 repaint();
                 break;
-            case KeyEvent.VK_UP:// rotate camera up
+            /*case KeyEvent.VK_UP:// rotate camera up
                 cTilt += Math.PI/16;
-                camera.pointInDirection(cTilt, cYaw, cRoll);
+                camera.rotateXY(cTilt, cYaw, cRoll);
                 repaint();
                 break;
             case KeyEvent.VK_DOWN:// rotate camera down
                 cTilt -= Math.PI/16;
                 camera.pointInDirection(cTilt, cYaw, cRoll);
                 repaint();
-                break;
+                break;*/
             case KeyEvent.VK_LEFT:// rotate camera left
                 cYaw -= Math.PI/16;
-                camera.pointInDirection(cTilt, cYaw, cRoll);
+                camera.rotateXY(-Math.PI/16);
                 repaint();
                 break;
             case KeyEvent.VK_RIGHT:// rotate camera right
                 cYaw += Math.PI/16;
-                camera.pointInDirection(cTilt, cYaw, cRoll);
+                camera.rotateXY(Math.PI/16);
                 repaint();
                 break;
-            case KeyEvent.VK_PAGE_UP:// roll camera clockwise
+            /*case KeyEvent.VK_PAGE_UP:// roll camera clockwise
                 cRoll += Math.PI/16;
                 camera.pointInDirection(cTilt, cYaw, cRoll);
                 repaint();
@@ -136,7 +136,7 @@ class animationPane extends JPanel
                 cRoll -= Math.PI/16;
                 camera.pointInDirection(cTilt, cYaw, cRoll);
                 repaint();
-                break;
+                break;*/
         }
     }
     
