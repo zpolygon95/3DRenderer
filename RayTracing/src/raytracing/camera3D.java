@@ -16,9 +16,9 @@ public class camera3D
         
         //direction is always <1, 0, 0>
         //also direction should always have length 1.
-        direction = new vector3D(1, 0, 0);
+        direction = new vector3D(-1, 0, 0);
         
-        directionX = new vector3D(0, 1, 0);
+        directionX = new vector3D(0, -1, 0);
         directionY = new vector3D(0, 0, 1); 
                 
         horizResolution = 500;
@@ -79,18 +79,14 @@ public class camera3D
         //combine the components and normalize
         //with the predetermined angle and perspective, we know that an pixel x-shift corresponds to a y-shift and a pixel y-shift corresponds to z-shift        
         vector3D pixelPoint = vector3D.add(vector3D.scaleVector(directionX, xRespect), vector3D.scaleVector(directionY, yRespect));
+        vector3D pixelDir;
+        
         if(pixelPoint == null)
-                System.out.println("pxlpt is null");
+            pixelDir = this.direction;
+        else
+            pixelDir = vector3D.add(this.direction, pixelPoint);
         
-        vector3D foo = new vector3D(0, 0, 0);
-        if(vector3D.normalize(pixelPoint) == null)
-            System.out.println("function result was null");
-        
-        if(foo == null)
-            System.out.println("foo is null");
-        
-        line3D doo = new line3D(new vector3D(0, 0, 1), new vector3D(0, 1, 0));
-        return doo;
+        return new line3D(perspective, vector3D.normalize(pixelDir));
     }
     
     //mutator methods
@@ -115,6 +111,11 @@ public class camera3D
         else
         {
             theta = Math.atan(this.direction.getY()/this.direction.getX());
+            
+            if(this.direction.getX() < 0)
+            {
+                theta += Math.PI;
+            }
         }
         
         theta += rads;
@@ -128,11 +129,15 @@ public class camera3D
         lengthProj = Math.sqrt(Math.pow(this.directionX.getX(), 2) + Math.pow(this.directionX.getY(), 2));
         if(this.directionX.getX() == 0)
         {
-            theta = (Math.PI/2)*Math.signum(this.directionX.getX());
+            theta = (Math.PI/2)*Math.signum(this.directionX.getY());
         }
         else
         {
             theta = Math.atan(this.directionX.getY()/this.directionX.getX());
+            if(this.directionX.getX() < 0)
+            {
+                theta += Math.PI;
+            }
         }
         
         theta += rads;
@@ -160,9 +165,32 @@ public class camera3D
         }
         else
         {
-            return Math.atan(this.direction.getY()/this.direction.getX());
+            double theta = Math.atan(this.direction.getY()/this.direction.getX());
+            if(this.direction.getX() < 0)
+            {
+                theta += Math.PI;
+            }
+            return theta;
         }
     }
+    
+    public double xDirTheta()
+    {
+        if(this.directionX.getX() == 0)
+        {
+            return (Math.PI/2)*Math.signum(this.directionX.getY());
+        }
+        else
+        {
+            double theta = Math.atan(this.directionX.getY()/this.directionX.getX());
+            if(this.directionX.getX() < 0)
+            {
+                theta += Math.PI;
+            }
+            return theta;
+        } 
+    }
+    
     public void moveUp()
     {
         perspective = vector3D.add(perspective, directionY);

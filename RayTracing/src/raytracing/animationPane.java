@@ -68,10 +68,13 @@ class animationPane extends JPanel
         g2.drawImage(sg.getImageData(camera), null, 0, 0);
         g.setColor(Color.WHITE);
         g.drawString("Position: " + camera.getPosition(), 0, 10);//print some values on the screen
-        g.drawString("Tilt: " + cTilt + "        Direction: " + camera.getDirection(), 0, 20);
-        g.drawString("Yaw: " + cYaw + "        X Direction: " + camera.getDirectionX(), 0, 30);
-        g.drawString("Roll: " + cRoll + "        Y Direction: " + camera.getDirectionY(), 0, 40);
-        g.drawString("Dot: " + vector3D.round(vector3D.getDotProduct(camera.getDirection(), camera.getDirectionX()), 10), 0, 50);
+        g.drawString("calc'd theta: " + camera.calcTheta(), 0, 20);
+        g.drawString("xdirection = " + camera.getDirectionX(), 0, 30);
+        g.drawString("xdirtheta =  " + camera.xDirTheta(), 0, 40);
+        //g.drawString("Tilt: " + cTilt + "        Direction: " + camera.getDirection(), 0, 20);
+        //g.drawString("Yaw: " + cYaw + "        X Direction: " + camera.getDirectionX(), 0, 30);
+        //g.drawString("Roll: " + cRoll + "        Y Direction: " + camera.getDirectionY(), 0, 40);
+        //g.drawString("Dot: " + vector3D.round(vector3D.getDotProduct(camera.getDirection(), camera.getDirectionX()), 10), 0, 50);
     }
     
     public void keyTyped(KeyEvent ke)
