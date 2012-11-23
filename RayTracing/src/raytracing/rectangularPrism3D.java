@@ -6,36 +6,36 @@ import java.awt.Color;
  * Somewhat depreciated, plans to extend parallelopipedon
  * @author Zachary
  */
-public class rectangularPrism3D extends shape3D
+public class RectangularPrism3D extends Shape3D
 {
-    rectangularPlane3D[] rects;
+    RectangularPlane3D[] rects;
     
-    public rectangularPrism3D(vector3D p, vector3D d, vector3D d1, double l, double w, double h, Color[] c)
+    public RectangularPrism3D(Vector3D p, Vector3D d, Vector3D d1, double l, double w, double h, Color[] c)
     {
-        assert vector3D.getDotProduct(d, d1) == 0;
+        assert Vector3D.getDotProduct(d, d1) == 0;
         assert c.length == 6;
         
-        vector3D d2 = vector3D.getCrossProduct(d, d1);
+        Vector3D d2 = Vector3D.getCrossProduct(d, d1);
         
-        vector3D vLength = vector3D.scaleVector(d, l);
-        vector3D vHeight = vector3D.scaleVector(d1, h);
-        vector3D vWidth = vector3D.scaleVector(d2, w);
+        Vector3D vLength = Vector3D.scaleVector(d, l);
+        Vector3D vHeight = Vector3D.scaleVector(d1, h);
+        Vector3D vWidth = Vector3D.scaleVector(d2, w);
         
-        vector3D p1 = vector3D.add(p, vector3D.add(vLength, vector3D.add(vHeight, vWidth)));
+        Vector3D p1 = Vector3D.add(p, Vector3D.add(vLength, Vector3D.add(vHeight, vWidth)));
         
-        rects = new rectangularPlane3D[6];
-        rects[0] = new rectangularPlane3D(p, d, d1, w, l, c[0]);
-        rects[1] = new rectangularPlane3D(p, d2, d, l, h, c[1]);
-        rects[2] = new rectangularPlane3D(p, d1, d2, w, h, c[2]);
-        rects[3] = new rectangularPlane3D(p1, d1, d, -w, -l, c[3]);
-        rects[4] = new rectangularPlane3D(p1, d, d2, -l, -h, c[4]);
-        rects[5] = new rectangularPlane3D(p1, d2, d1, -h, -w, c[5]);
+        rects = new RectangularPlane3D[6];
+        rects[0] = new RectangularPlane3D(p, d, d1, w, l, c[0]);
+        rects[1] = new RectangularPlane3D(p, d2, d, l, h, c[1]);
+        rects[2] = new RectangularPlane3D(p, d1, d2, w, h, c[2]);
+        rects[3] = new RectangularPlane3D(p1, d1, d, -w, -l, c[3]);
+        rects[4] = new RectangularPlane3D(p1, d, d2, -l, -h, c[4]);
+        rects[5] = new RectangularPlane3D(p1, d2, d1, -h, -w, c[5]);
     }
 
     @Override
-    public rayCollisionResult getRayColorandPos(line3D ray)
+    public RayCollisionResult getRayColorandPos(Line3D ray)
     {
-        for (rectangularPlane3D p : rects)
+        for (RectangularPlane3D p : rects)
         {
             if (p.getRayColorandPos(ray) != null)
                 return p.getRayColorandPos(ray);

@@ -13,12 +13,12 @@ import java.awt.Graphics2D;
  * BufferedImage is now used
  * @author Zachary
  */
-public class animationFrame
+public class AnimationFrame
 {
     Color[][] pixels;
     int height, width, xPos, yPos;
     
-    public animationFrame(Color[][] p, int x, int y)
+    public AnimationFrame(Color[][] p, int x, int y)
     {
         pixels = p;
         height = p.length;

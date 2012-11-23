@@ -4,29 +4,29 @@ package raytracing;
  * Used for collision detection in the renderer, a nice way to store important data
  * @author Zachary
  */
-public class line3D
+public class Line3D
 {
-    private vector3D startPoint, direction;//orientation
+    private Vector3D startPoint, direction;//orientation
     
     /**
-     * Construct a new line3D
+     * Construct a new Line3D
      * @param start
      * @param dir 
      */
-    public line3D(vector3D start, vector3D dir)
+    public Line3D(Vector3D start, Vector3D dir)
     {
         startPoint = start;
-        direction = vector3D.normalize(dir);
+        direction = Vector3D.normalize(dir);
     }
     
     //accessor methods
     
-    public vector3D getStartPoint()
+    public Vector3D getStartPoint()
     {
         return startPoint;
     }
     
-    public vector3D getDirection()
+    public Vector3D getDirection()
     {
         return direction;
     }
@@ -39,7 +39,7 @@ public class line3D
      * @param point
      * @return 
      */
-    public static boolean isColinear(line3D line, vector3D point)
+    public static boolean isColinear(Line3D line, Vector3D point)
     {
         double tx = (point.getX() - line.startPoint.getX()) / line.direction.getX();
         double ty = (point.getY() - line.startPoint.getY()) / line.direction.getY();

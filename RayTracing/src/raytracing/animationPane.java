@@ -10,28 +10,28 @@ import javax.swing.JPanel;
  * This class is meant as a testing / debugging platform, and is temporary
  * @author Zachary
  */
-class animationPane extends JPanel
+class AnimationPane extends JPanel
 {
-    private camera3D camera;//the camera object we use to get image data
+    private Camera3D camera;//the camera object we use to get image data
     private double cTilt, cYaw, cRoll;//the camera orientation values -- not sure if I am using the correct terminology
-    parallelogram3D pGram1, pGram2, pGram3;//parallelograms
-    parallelopipedon pDon;//a cube
-    private sceneGraph sg;//the scene graph that all shapes are contained in
-    vector3D Vert, l1, l2, l3, cPos;//some vectors used as arguments in the construction of shapes
+    Parallelogram3D pGram1, pGram2, pGram3;//parallelograms
+    Parallelopipedon pDon;//a cube
+    private SceneGraph sg;//the scene graph that all shapes are contained in
+    Vector3D Vert, l1, l2, l3, cPos;//some vectors used as arguments in the construction of shapes
     
     Color[] colors;//an array of colors for the cube
     
-    public animationPane()
+    public AnimationPane()
     {
         cTilt = cYaw = 0;//declaring a bunch of fun shapes and objects we use for testing
         cRoll = 0;
-        cPos = new vector3D(0, 2, 0);
-        camera = new camera3D(cPos, cTilt, cYaw, cRoll, 250, 250, Math.PI/4, Math.PI/4);
+        cPos = new Vector3D(0, 2, 0);
+        camera = new Camera3D(cPos, cTilt, cYaw, cRoll, 250, 250, Math.PI/4, Math.PI/4);
         
-        Vert = new vector3D(3, 1, 1);
-        l1 = new vector3D(0, 0, 1);
-        l2 = new vector3D(1, 0, 0);
-        l3 = vector3D.getCrossProduct(l1, l2);
+        Vert = new Vector3D(3, 1, 1);
+        l1 = new Vector3D(0, 0, 1);
+        l2 = new Vector3D(1, 0, 0);
+        l3 = Vector3D.getCrossProduct(l1, l2);
         
         colors = new Color[6];
         colors[0] = Color.RED;
@@ -41,19 +41,19 @@ class animationPane extends JPanel
         colors[4] = Color.BLUE;
         colors[5] = Color.WHITE;
         
-        pDon = new parallelopipedon(Vert, l1, l2, l3, colors);
-        parallelopipedon pDon1 = new parallelopipedon(new vector3D(3, 1, -1), l1, l2, l3, colors);
-        parallelopipedon pDon2 = new parallelopipedon(new vector3D(3, 3, -1), l1, l2, l3, colors);
-        parallelopipedon pDon3 = new parallelopipedon(new vector3D(3, 3, 1), l1, l2, l3, colors);
+        pDon = new Parallelopipedon(Vert, l1, l2, l3, colors);
+        Parallelopipedon pDon1 = new Parallelopipedon(new Vector3D(3, 1, -1), l1, l2, l3, colors);
+        Parallelopipedon pDon2 = new Parallelopipedon(new Vector3D(3, 3, -1), l1, l2, l3, colors);
+        Parallelopipedon pDon3 = new Parallelopipedon(new Vector3D(3, 3, 1), l1, l2, l3, colors);
         
-        pGram1 = new parallelogram3D(new vector3D(2, 1, 1), new vector3D(0, 1, 0), new vector3D(0, 0, 1), Color.LIGHT_GRAY);
-        pGram2 = new parallelogram3D(new vector3D(3, 1, 0), new vector3D(0, 1, 0), new vector3D(1, 0, 0), Color.LIGHT_GRAY);
-        pGram3 = new parallelogram3D(new vector3D(1, 1, 1), new vector3D(0, 1, 0), new vector3D(0, 0, 1), Color.LIGHT_GRAY);
+        pGram1 = new Parallelogram3D(new Vector3D(2, 1, 1), new Vector3D(0, 1, 0), new Vector3D(0, 0, 1), Color.LIGHT_GRAY);
+        pGram2 = new Parallelogram3D(new Vector3D(3, 1, 0), new Vector3D(0, 1, 0), new Vector3D(1, 0, 0), Color.LIGHT_GRAY);
+        pGram3 = new Parallelogram3D(new Vector3D(1, 1, 1), new Vector3D(0, 1, 0), new Vector3D(0, 0, 1), Color.LIGHT_GRAY);
         
         
-        griddedPlane3D gp = new griddedPlane3D(vector3D.ZERO_VECTOR, new vector3D(0, -5, 0), new vector3D(1, 0, 0), Color.BLUE, new Color(250, 0, 250), 0.1, 1);
+        GriddedPlane3D gp = new GriddedPlane3D(Vector3D.ZERO_VECTOR, new Vector3D(0, -5, 0), new Vector3D(1, 0, 0), Color.BLUE, new Color(250, 0, 250), 0.1, 1);
         
-        sg = new sceneGraph(null, null, Color.BLACK, 40, Color.BLACK);
+        sg = new SceneGraph(null, null, Color.BLACK, 40, Color.BLACK);
         sg.addShape(pDon);
         sg.addShape(pDon1);
         sg.addShape(pDon2);
@@ -71,7 +71,7 @@ class animationPane extends JPanel
         g.drawString("Tilt: " + cTilt + "        Direction: " + camera.getDirection(), 0, 20);
         g.drawString("Yaw: " + cYaw + "        X Direction: " + camera.getDirectionX(), 0, 30);
         g.drawString("Roll: " + cRoll + "        Y Direction: " + camera.getDirectionY(), 0, 40);
-        g.drawString("Dot: " + vector3D.round(vector3D.getDotProduct(camera.getDirection(), camera.getDirectionX()), 10), 0, 50);
+        g.drawString("Dot: " + Vector3D.round(Vector3D.getDotProduct(camera.getDirection(), camera.getDirectionX()), 10), 0, 50);
     }
     
     public void keyTyped(KeyEvent ke)

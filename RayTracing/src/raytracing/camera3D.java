@@ -4,14 +4,14 @@ package raytracing;
  * This object is used in the creation of 3D images by providing the ray objects to the scene graph
  * @author Zachary
  */
-public class camera3D
+public class Camera3D
 {
-    private vector3D perspective, direction, directionX, directionY;//orientation of the camera
+    private Vector3D perspective, direction, directionX, directionY;//orientation of the camera
     private int horizResolution, vertResolution;//resolution of the images produced
     private double horizViewport, vertViewport;//angles of the viewport of the camera
     
     /**
-     * creates a new camera3D object using vectors as orientation arguments
+     * creates a new Camera3D object using vectors as orientation arguments
      * @param p - the position of the camera
      * @param d - the direction the camera is facing
      * @param dx - the horizontal direction of the camera
@@ -20,12 +20,12 @@ public class camera3D
      * @param hv - the horizontal viewport angle of the camera
      * @param vv - the vertical viewport angle of the camera
      */
-    public camera3D(vector3D p, vector3D d, vector3D dx, int hr, int vr, double hv, double vv)
+    public Camera3D(Vector3D p, Vector3D d, Vector3D dx, int hr, int vr, double hv, double vv)
     {//assign the appropriate values
         perspective = p;
         direction = d;
         directionX = dx;
-        directionY = vector3D.getCrossProduct(direction, directionX);
+        directionY = Vector3D.getCrossProduct(direction, directionX);
         horizResolution = hr;
         vertResolution = vr;
         horizViewport = hv;
@@ -33,7 +33,7 @@ public class camera3D
     }
     
     /**
-     * creates a new camera3D object using angles as orientation arguments
+     * creates a new Camera3D object using angles as orientation arguments
      * @param p - the position of the camera
      * @param tilt - if looking along the X axis, tilt is the angle between direction and the X axis in the XY plane
      * @param yaw - if looking along the X axis, yaw is the angle between direction and the X axis in the XZ plane
@@ -43,12 +43,12 @@ public class camera3D
      * @param hv - the horizontal viewport angle of the camera
      * @param vv - the vertical viewport angle of the camera
      */
-    public camera3D(vector3D p, double tilt, double yaw, double roll, int hr, int vr, double hv, double vv)
+    public Camera3D(Vector3D p, double tilt, double yaw, double roll, int hr, int vr, double hv, double vv)
     {//assign the proper values
         perspective = p;
-        direction = vector3D.angleToVector(yaw, tilt);
-        directionX = vector3D.angleToVector(yaw + (Math.PI/2), roll);
-        directionY = vector3D.getCrossProduct(direction, directionX);
+        direction = Vector3D.angleToVector(yaw, tilt);
+        directionX = Vector3D.angleToVector(yaw + (Math.PI/2), roll);
+        directionY = Vector3D.getCrossProduct(direction, directionX);
         horizResolution = hr;
         vertResolution = vr;
         horizViewport = hv;
@@ -67,22 +67,22 @@ public class camera3D
         return vertResolution;
     }
     
-    public vector3D getPosition()
+    public Vector3D getPosition()
     {
         return perspective;
     }
     
-    public vector3D getDirection()
+    public Vector3D getDirection()
     {
         return direction;
     }
     
-    public vector3D getDirectionX()
+    public Vector3D getDirectionX()
     {
         return directionX;
     }
     
-    public vector3D getDirectionY()
+    public Vector3D getDirectionY()
     {
         return directionY;
     }
@@ -96,15 +96,15 @@ public class camera3D
      * @return the ray from the perspective point and through the pixel,
      * or null if the x or y values are out of the bounds of the camera's resolution
      */
-    public line3D getRayForPixel(int x, int y)
+    public Line3D getRayForPixel(int x, int y)
     {//check for out of bounds exceptions
         if ((x < 0 || x >= horizResolution) || (y < 0 || y >= vertResolution))
             return null;
-        vector3D xComponent = vector3D.scaleVector(directionX, ((double)x - ((double)horizResolution/2))/(double)horizResolution);
-        vector3D yComponent = vector3D.scaleVector(directionY, ((double)y - ((double)vertResolution/2))/(double)vertResolution);
+        Vector3D xComponent = Vector3D.scaleVector(directionX, ((double)x - ((double)horizResolution/2))/(double)horizResolution);
+        Vector3D yComponent = Vector3D.scaleVector(directionY, ((double)y - ((double)vertResolution/2))/(double)vertResolution);
         //combine the components and normalize
-        vector3D dir = vector3D.add(direction, vector3D.add(xComponent, yComponent));
-        return new line3D(perspective, dir);
+        Vector3D dir = Vector3D.add(direction, Vector3D.add(xComponent, yComponent));
+        return new Line3D(perspective, dir);
     }
     
     //mutator methods
@@ -120,39 +120,39 @@ public class camera3D
         double Tilt = tilt % (Math.PI * 2);//make the numbers clean
         double Yaw = yaw % (Math.PI * 2);
         double Roll = roll % (Math.PI * 2);
-        direction = vector3D.angleToVector(Yaw, Tilt);//magic stuff
-        directionX = vector3D.angleToVector(Roll, Yaw);
-        directionY = vector3D.getCrossProduct(direction, directionX);
+        direction = Vector3D.angleToVector(Yaw, Tilt);//magic stuff
+        directionX = Vector3D.angleToVector(Roll, Yaw);
+        directionY = Vector3D.getCrossProduct(direction, directionX);
     }
     
     public void moveForward()
     {
-        perspective = vector3D.add(perspective, direction);
+        perspective = Vector3D.add(perspective, direction);
     }
     
     public void moveBackward()
     {
-        perspective = vector3D.add(perspective, vector3D.scaleVector(direction, -1));
+        perspective = Vector3D.add(perspective, Vector3D.scaleVector(direction, -1));
     }
     
     public void moveUp()
     {
-        perspective = vector3D.add(perspective, directionY);
+        perspective = Vector3D.add(perspective, directionY);
     }
     
     public void moveDown()
     {
-        perspective = vector3D.add(perspective, vector3D.scaleVector(directionY, -1));
+        perspective = Vector3D.add(perspective, Vector3D.scaleVector(directionY, -1));
     }
     
     public void moveRight()
     {
-        perspective = vector3D.add(perspective, vector3D.scaleVector(directionX, -1));
+        perspective = Vector3D.add(perspective, Vector3D.scaleVector(directionX, -1));
     }
     
     public void moveLeft()
     {
-        perspective = vector3D.add(perspective, directionX);
+        perspective = Vector3D.add(perspective, directionX);
     }
     
     //end mutator methods

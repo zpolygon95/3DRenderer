@@ -6,11 +6,11 @@ import java.awt.Color;
  * Used in an uncountable number of vector geometry calculations
  * @author Zachary
  */
-public class vector3D
+public class Vector3D
 {
     private double x, y, z;//components
     
-    public static vector3D ZERO_VECTOR = new vector3D(0, 0, 0);//the zero vector
+    public static Vector3D ZERO_VECTOR = new Vector3D(0, 0, 0);//the zero vector
     
     /**
      * constructs a new 3-Dimensional vector
@@ -18,7 +18,7 @@ public class vector3D
      * @param y - the magnitude in the vertical direction
      * @param z - the magnitude in the depth direction
      */
-    public vector3D(double x, double y, double z)
+    public Vector3D(double x, double y, double z)
     {//assign appropriate values
         this.x = x;
         this.y = y;
@@ -61,12 +61,12 @@ public class vector3D
      * @param scalar - the value to scale by
      * @return - The scaled vector
      */
-    public static vector3D scaleVector(vector3D v, double scalar)
+    public static Vector3D scaleVector(Vector3D v, double scalar)
     {
         double newX = v.x * scalar;
         double newY = v.y * scalar;
         double newZ = v.z * scalar;
-        return new vector3D(newX, newY, newZ);
+        return new Vector3D(newX, newY, newZ);
     }
     
     /**
@@ -74,7 +74,7 @@ public class vector3D
      * @param v the vector to be normalized
      * @return a vector with magnitude 1;
      */
-    public static vector3D normalize(vector3D v)
+    public static Vector3D normalize(Vector3D v)
     {
         double m = v.getMagnitude();
         if (m == 0)
@@ -88,12 +88,12 @@ public class vector3D
      * @param v2 - The second vector in the addition
      * @return - The sum of v1 and v2
      */
-    public static vector3D add(vector3D v1, vector3D v2)
+    public static Vector3D add(Vector3D v1, Vector3D v2)
     {
         double newX = v1.x + v2.x;
         double newY = v1.y + v2.y;
         double newZ = v1.z + v2.z;
-        return new vector3D(newX, newY, newZ);
+        return new Vector3D(newX, newY, newZ);
     }
     
     /**
@@ -102,7 +102,7 @@ public class vector3D
      * @param v2 - The second vector in the subtraction
      * @return - The difference between v1 and v2
      */
-    public static vector3D subtract(vector3D v1, vector3D v2)
+    public static Vector3D subtract(Vector3D v1, Vector3D v2)
     {
         return add(v1, scaleVector(v2, -1));
     }
@@ -114,13 +114,13 @@ public class vector3D
      * @param v the vector to be examined
      * @return the vector containing the two angles that represent the direction of vector v
      */
-    public static vector3D getVectorAngle(vector3D v)
+    public static Vector3D getVectorAngle(Vector3D v)
     {
-        vector3D v2 = normalize(v);
-        double XAngle = Math.toDegrees(Math.acos(getDotProduct(v2, new vector3D(1, 0, 0))));
-        double YAngle = Math.toDegrees(Math.acos(getDotProduct(v2, new vector3D(0, 1, 0))));
-        double ZAngle = Math.toDegrees(Math.acos(getDotProduct(v2, new vector3D(0, 0, 1))));
-        return new vector3D(XAngle, YAngle, ZAngle);
+        Vector3D v2 = normalize(v);
+        double XAngle = Math.toDegrees(Math.acos(getDotProduct(v2, new Vector3D(1, 0, 0))));
+        double YAngle = Math.toDegrees(Math.acos(getDotProduct(v2, new Vector3D(0, 1, 0))));
+        double ZAngle = Math.toDegrees(Math.acos(getDotProduct(v2, new Vector3D(0, 0, 1))));
+        return new Vector3D(XAngle, YAngle, ZAngle);
     }
     
     /**
@@ -129,12 +129,12 @@ public class vector3D
      * @param theta - the angle of rotation
      * @return The rotated point
      */
-    public static vector3D rotateVectorX(vector3D v, double theta)
+    public static Vector3D rotateVectorX(Vector3D v, double theta)
     {
         double x = v.x;
         double y = (Math.cos(theta) * v.y) + (-Math.sin(theta) * v.z);
         double z = (Math.sin(theta) * v.y) + (Math.cos(theta) * v.z);
-        return new vector3D(x, y, z);
+        return new Vector3D(x, y, z);
     }
     
     /**
@@ -143,12 +143,12 @@ public class vector3D
      * @param theta - the angle of rotation
      * @return The rotated point
      */
-    public static vector3D rotateVectorY(vector3D v, double theta)
+    public static Vector3D rotateVectorY(Vector3D v, double theta)
     {
         double x = (Math.cos(theta) * v.x) + (Math.sin(theta) * v.z);
         double y = v.y;
         double z = (-Math.sin(theta) * v.x) + (Math.cos(theta) * v.z);
-        return new vector3D(x, y, z);
+        return new Vector3D(x, y, z);
     }
     
     /**
@@ -157,12 +157,12 @@ public class vector3D
      * @param theta - the angle of rotation
      * @return The rotated point
      */
-    public static vector3D rotateVectorZ(vector3D v, double theta)
+    public static Vector3D rotateVectorZ(Vector3D v, double theta)
     {
         double x = (Math.cos(theta) * v.x) + (-Math.sin(theta) * v.y);
         double y = (Math.sin(theta) * v.x) + (Math.cos(theta) * v.y);
         double z = v.z;
-        return new vector3D(x, y, z);
+        return new Vector3D(x, y, z);
     }
     
     /**
@@ -172,7 +172,7 @@ public class vector3D
      * @param theta
      * @return 
      */
-    public static vector3D rotateCustom(vector3D r, vector3D v, double theta)
+    public static Vector3D rotateCustom(Vector3D r, Vector3D v, double theta)
     {
         double cosx = Math.cos(theta);//define commonly used values
         double sinx = Math.cos(theta);
@@ -192,7 +192,7 @@ public class vector3D
         double y = (d * v.x) + (e * v.y) + (f * v.z);
         double z = (g * v.x) + (h * v.y) + (i * v.z);
         
-        return new vector3D(x, y, z);
+        return new Vector3D(x, y, z);
     }
     
     /**
@@ -203,16 +203,16 @@ public class vector3D
      * @param thetaXY - the angle of the vector in the XY plane
      * @return the vector
      */
-    public static vector3D angleToVector(double thetaXZ, double thetaXY)
+    public static Vector3D angleToVector(double thetaXZ, double thetaXY)
     {
-        vector3D xy = new vector3D(//create a vector normal to the plane perpindicular to the XZ plane that the result vector lies in
+        Vector3D xy = new Vector3D(//create a vector normal to the plane perpindicular to the XZ plane that the result vector lies in
                 round(Math.cos(thetaXZ - (Math.PI/4)), 10), 0,
                 round(Math.sin(thetaXZ - (Math.PI/4)), 10));
-        vector3D xz = new vector3D(//create a vector normal to the plane perpindicular to the XY plane that the result vector lies in
+        Vector3D xz = new Vector3D(//create a vector normal to the plane perpindicular to the XY plane that the result vector lies in
                 round(Math.cos(thetaXY + (Math.PI/4)), 10),
                 round(Math.sin(thetaXY + (Math.PI/4)), 10),
                 0);
-        vector3D result =  normalize(getCrossProduct(xy, xz));
+        Vector3D result =  normalize(getCrossProduct(xy, xz));
         if (result == null)
             System.out.println(xz + "\n" + xy);
         if (result.x == -0)// signed zero is bad for these types of things
@@ -224,8 +224,8 @@ public class vector3D
         if (result.equals(ZERO_VECTOR))//check that you don't mess up all the things
         {
             if (thetaXY == Math.PI/2)
-                return new vector3D(0, 1, 0);
-            return new vector3D(0, -1, 0);
+                return new Vector3D(0, 1, 0);
+            return new Vector3D(0, -1, 0);
         }
         return normalize(result);//make sure the magnitude is 1
     }
@@ -236,7 +236,7 @@ public class vector3D
      * @param v2 - the second vector argument
      * @return - v1.getMagnitude * v2.getMagnitude * Math.cos(The angle between the vectors)
      */
-    public static double getDotProduct(vector3D v1, vector3D v2)
+    public static double getDotProduct(Vector3D v1, Vector3D v2)
     {
         return (v1.x * v2.x) + (v1.y * v2.y) + (v1.z * v2.z);
     }
@@ -249,13 +249,13 @@ public class vector3D
      * @param v2 - the second vector argument
      * @return the result of the cross product in right-handed space
      */
-    public static vector3D getCrossProduct(vector3D v1, vector3D v2)
+    public static Vector3D getCrossProduct(Vector3D v1, Vector3D v2)
     {
         double x = (v1.y * v2.z) - (v1.z * v2.y);
         double y = (v1.z * v2.x) - (v1.x * v2.z);
         double z = (v1.x * v2.y) - (v1.y * v2.x);
         
-        return new vector3D(x, y, z);
+        return new Vector3D(x, y, z);
     }
     
     /**
@@ -280,14 +280,14 @@ public class vector3D
                 return null;
             return c1;
         }
-        vector3D c1V = new vector3D(c1.getRed(), c1.getGreen(), c1.getBlue());
-        vector3D c2V = new vector3D(c2.getRed(), c2.getGreen(), c2.getBlue());
+        Vector3D c1V = new Vector3D(c1.getRed(), c1.getGreen(), c1.getBlue());
+        Vector3D c2V = new Vector3D(c2.getRed(), c2.getGreen(), c2.getBlue());
         double c1Proportion = c1.getAlpha();
         double c2Proportion = c2.getAlpha();
         double totalProportion = c1Proportion + c2Proportion;
         c1V = scaleVector(c1V, c1Proportion / totalProportion);
         c2V = scaleVector(c2V, c2Proportion / totalProportion);
-        vector3D result = add(c1V, c2V);
+        Vector3D result = add(c1V, c2V);
         result = scaleVector(normalize(result), 255);
         return new Color((int)result.x, (int)result.y, (int)result.z);
     }
@@ -311,7 +311,7 @@ public class vector3D
     @Override
     public boolean equals(Object o)
     {
-        if (o instanceof vector3D)
+        if (o instanceof Vector3D)
             return o.hashCode() == hashCode();
         return false;
     }

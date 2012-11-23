@@ -6,13 +6,13 @@ import java.awt.Color;
  * To be continued!
  * @author Zachary
  */
-public class lightSource3D extends shape3D
+public class LightSource3D extends Shape3D
 {
-    shape3D shape;
-    vector3D sourcePoint;
+    Shape3D shape;
+    Vector3D sourcePoint;
     Color lightColor;
     
-    public lightSource3D(vector3D p, Color l, shape3D s)
+    public LightSource3D(Vector3D p, Color l, Shape3D s)
     {
         sourcePoint = p;
         lightColor = l;
@@ -20,14 +20,14 @@ public class lightSource3D extends shape3D
     }
 
     @Override
-    public rayCollisionResult getRayColorandPos(line3D ray)
+    public RayCollisionResult getRayColorandPos(Line3D ray)
     {
         if (shape == null)
             return null;
         return shape.getRayColorandPos(ray);
     }
     
-    public vector3D getSource()
+    public Vector3D getSource()
     {
         return sourcePoint;
     }

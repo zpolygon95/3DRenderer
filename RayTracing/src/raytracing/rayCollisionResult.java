@@ -6,9 +6,9 @@ import java.awt.Color;
  * Object used to store data about a ray collision
  * @author Zachary
  */
-public class rayCollisionResult
+public class RayCollisionResult
 {
-    private vector3D source, dest;//orientation
+    private Vector3D source, dest;//orientation
     private Color color;//data
     
     /**
@@ -17,7 +17,7 @@ public class rayCollisionResult
      * @param camP - the perspective point of the camera
      * @param c - the color of the "reflected light"
      */
-    public rayCollisionResult(vector3D colP, vector3D camP, Color c)
+    public RayCollisionResult(Vector3D colP, Vector3D camP, Color c)
     {//assigg appropriate values
         source = camP;
         dest = colP;
@@ -26,19 +26,19 @@ public class rayCollisionResult
     
     //accessor methods
     
-    public vector3D getSource()
+    public Vector3D getSource()
     {
         return source;
     }
     
-    public vector3D getColisionPoint()
+    public Vector3D getColisionPoint()
     {
         return dest;
     }
     
     public double getRayLength()
     {
-        return vector3D.subtract(dest, source).getMagnitude();
+        return Vector3D.subtract(dest, source).getMagnitude();
     }
     
     public Color getColor()

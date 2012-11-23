@@ -7,23 +7,23 @@ import java.util.Objects;
  * This class defines a 2 dimensional finite plane shaped like a parallelogram, created from 2 triangles
  * @author Zachary
  */
-public class parallelogram3D extends shape3D
+public class Parallelogram3D extends Shape3D
 {
     TriangularPlane3D t1, t2;//components
     
     /**
-     * creates a new parallelogram3D
+     * creates a new Parallelogram3D
      * @param p - the vertex of the shape
      * @param l - the first leg of the shape
      * @param l1 - the second leg of the shape
      * @param c - the color of the shape
      */
-    public parallelogram3D(vector3D p, vector3D l, vector3D l1, Color c)
+    public Parallelogram3D(Vector3D p, Vector3D l, Vector3D l1, Color c)
     {//assign proper values
         t1 = new TriangularPlane3D(p, l, l1, false, c);
-        vector3D p1 = vector3D.add(p, vector3D.add(l, l1));//create adjacent and opposite triangles
-        vector3D l2 = vector3D.scaleVector(l1, -1);
-        vector3D l3 = vector3D.scaleVector(l, -1);
+        Vector3D p1 = Vector3D.add(p, Vector3D.add(l, l1));//create adjacent and opposite triangles
+        Vector3D l2 = Vector3D.scaleVector(l1, -1);
+        Vector3D l3 = Vector3D.scaleVector(l, -1);
         t2 = new TriangularPlane3D(p1, l2, l3, false, c);
     }
     
@@ -47,9 +47,9 @@ public class parallelogram3D extends shape3D
      * @return the collision result
      */
     @Override
-    public rayCollisionResult getRayColorandPos(line3D ray)
+    public RayCollisionResult getRayColorandPos(Line3D ray)
     {
-        rayCollisionResult c = t1.getRayColorandPos(ray);
+        RayCollisionResult c = t1.getRayColorandPos(ray);
         if (c != null)
             return c;
         return t2.getRayColorandPos(ray);
@@ -76,7 +76,7 @@ public class parallelogram3D extends shape3D
     @Override
     public boolean equals(Object o)
     {
-        if (o instanceof parallelogram3D)
+        if (o instanceof Parallelogram3D)
             return o.hashCode() == hashCode();
         return false;
     }

@@ -8,7 +8,7 @@ import javax.swing.JFrame;
  * the main class to get everything going. put testing things in here
  * @author Zachary
  */
-public class launch
+public class Launch
 {
     /**
      * main
@@ -20,7 +20,7 @@ public class launch
         frame.setSize(600, 600);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLocationRelativeTo(null);
-        final animationPane panel = new animationPane();
+        final AnimationPane panel = new AnimationPane();
         
         frame.addKeyListener(new KeyListener()//passes the KeyListener to the animation panel
         {

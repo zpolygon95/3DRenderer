@@ -7,9 +7,9 @@ import java.util.Objects;
  * This class defines a 2 dimensional finite triangular plane
  * @author Zachary
  */
-public class TriangularPlane3D extends shape3D
+public class TriangularPlane3D extends Shape3D
 {
-    vector3D vertex, vertex1, vertex2, leg1, leg2, legHyp, normal;
+    Vector3D vertex, vertex1, vertex2, leg1, leg2, legHyp, normal;
     Color planeColor, edgeColor;
     
     /**
@@ -23,25 +23,25 @@ public class TriangularPlane3D extends shape3D
      * representing the legs of the triangle
      * @param c the color of the plane
      */
-    public TriangularPlane3D(vector3D p0, vector3D p1, vector3D p2, boolean vertices, Color c)
+    public TriangularPlane3D(Vector3D p0, Vector3D p1, Vector3D p2, boolean vertices, Color c)
     {
         vertex = p0;//assign all values properly
         if (vertices)
         {
             vertex1 = p1;
             vertex2 = p2;
-            leg1 = vector3D.subtract(vertex1, vertex);
-            leg2 = vector3D.subtract(vertex2, vertex);
+            leg1 = Vector3D.subtract(vertex1, vertex);
+            leg2 = Vector3D.subtract(vertex2, vertex);
         }
         else
         {
-            vertex1 = vector3D.add(vertex, p1);
-            vertex2 = vector3D.add(vertex, p2);
+            vertex1 = Vector3D.add(vertex, p1);
+            vertex2 = Vector3D.add(vertex, p2);
             leg1 = p1;
             leg2 = p2;
         }
-        legHyp = vector3D.subtract(vector3D.add(vertex, leg1), vector3D.add(vertex, leg2));
-        normal = vector3D.getCrossProduct(leg1, leg2);
+        legHyp = Vector3D.subtract(Vector3D.add(vertex, leg1), Vector3D.add(vertex, leg2));
+        normal = Vector3D.getCrossProduct(leg1, leg2);
         planeColor = c;
         edgeColor = Color.WHITE;//used for debugging
     }
@@ -49,28 +49,28 @@ public class TriangularPlane3D extends shape3D
     /**
      * finds the result of a collision between this plane and the specifies ray
      * @param ray the ray to be checked for a collision
-     * @return a rayCollisionResult object with values that specify where the collision occurred
+     * @return a RayCollisionResult object with values that specify where the collision occurred
      * and the color of the plane at that point, or null if there is no collision
      */
     @Override
-    public rayCollisionResult getRayColorandPos(line3D ray)
+    public RayCollisionResult getRayColorandPos(Line3D ray)
     {//we first find how far along the ray the collision occurs
-        double scalar = vector3D.getDotProduct(normal, vector3D.subtract(vertex, ray.getStartPoint())) / vector3D.getDotProduct(normal, ray.getDirection());
+        double scalar = Vector3D.getDotProduct(normal, Vector3D.subtract(vertex, ray.getStartPoint())) / Vector3D.getDotProduct(normal, ray.getDirection());
         if (scalar <= 0)
             return null;
         //we define the point of collision
-        vector3D collisionPoint = vector3D.add(vector3D.scaleVector(ray.getDirection(), scalar), ray.getStartPoint());
+        Vector3D collisionPoint = Vector3D.add(Vector3D.scaleVector(ray.getDirection(), scalar), ray.getStartPoint());
         //we find the vector that lies on the plane between the vertex of the triangle and the collsion point
-        vector3D coplanarCollision = vector3D.subtract(collisionPoint, vertex);
+        Vector3D coplanarCollision = Vector3D.subtract(collisionPoint, vertex);
         
         //we create vectors that are perpindicular to the two legs and lie in the same plane
-        vector3D leg1PerpDot = vector3D.getCrossProduct(normal, leg1);
-        vector3D leg2PerpDot = vector3D.getCrossProduct(normal, leg2);
+        Vector3D leg1PerpDot = Vector3D.getCrossProduct(normal, leg1);
+        Vector3D leg2PerpDot = Vector3D.getCrossProduct(normal, leg2);
         
         //we find the "coordinates" of the collision point relative to the two legs
         //it works by magic
-        double sI = vector3D.getDotProduct(coplanarCollision, leg2PerpDot) / vector3D.getDotProduct(leg1, leg2PerpDot);
-        double tI = vector3D.getDotProduct(coplanarCollision, leg1PerpDot) / vector3D.getDotProduct(leg2, leg1PerpDot);
+        double sI = Vector3D.getDotProduct(coplanarCollision, leg2PerpDot) / Vector3D.getDotProduct(leg1, leg2PerpDot);
+        double tI = Vector3D.getDotProduct(coplanarCollision, leg1PerpDot) / Vector3D.getDotProduct(leg2, leg1PerpDot);
         
         if (!((sI >= 0) && (tI >= 0) && (sI + tI <= 1)))//if the collision point lies outside the bounds of the triangle
             return null;
@@ -80,33 +80,33 @@ public class TriangularPlane3D extends shape3D
             collisionColor = edgeColor;
         
         if (collisionPoint != null)
-            return new rayCollisionResult(collisionPoint, ray.getStartPoint(), collisionColor);
+            return new RayCollisionResult(collisionPoint, ray.getStartPoint(), collisionColor);
         
         return null;
     }
     
     //accessor methods
     
-    public vector3D getVertex()
+    public Vector3D getVertex()
     {
         return vertex;
     }
     
-    public vector3D getVertex1()
+    public Vector3D getVertex1()
     {
         return vertex1;
     }
     
-    public vector3D getVertex2()
+    public Vector3D getVertex2()
     {
         return vertex2;
     }
-    public vector3D getLeg1()
+    public Vector3D getLeg1()
     {
         return leg1;
     }
     
-    public vector3D getLeg2()
+    public Vector3D getLeg2()
     {
         return leg2;
     }
