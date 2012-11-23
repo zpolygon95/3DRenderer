@@ -56,6 +56,8 @@ public class TriangularPlane3D extends shape3D
     public rayCollisionResult getRayColorandPos(line3D ray)
     {//we first find how far along the ray the collision occurs
         double scalar = vector3D.getDotProduct(normal, vector3D.subtract(vertex, ray.getStartPoint())) / vector3D.getDotProduct(normal, ray.getDirection());
+        if (scalar <= 0)
+            return null;
         //we define the point of collision
         vector3D collisionPoint = vector3D.add(vector3D.scaleVector(ray.getDirection(), scalar), ray.getStartPoint());
         //we find the vector that lies on the plane between the vertex of the triangle and the collsion point

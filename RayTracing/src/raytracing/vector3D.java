@@ -124,6 +124,78 @@ public class vector3D
     }
     
     /**
+     * Rotate a point v, around the X axis counterclockwise theta degrees, if viewed as if the axis is pointing towards the viewer
+     * @param v - the position vector representing the point to be rotated
+     * @param theta - the angle of rotation
+     * @return The rotated point
+     */
+    public static vector3D rotateVectorX(vector3D v, double theta)
+    {
+        double x = v.x;
+        double y = (Math.cos(theta) * v.y) + (-Math.sin(theta) * v.z);
+        double z = (Math.sin(theta) * v.y) + (Math.cos(theta) * v.z);
+        return new vector3D(x, y, z);
+    }
+    
+    /**
+     * Rotate a point v, around the Y axis counterclockwise theta degrees, if viewed as if the axis is pointing towards the viewer
+     * @param v - the position vector representing the point to be rotated
+     * @param theta - the angle of rotation
+     * @return The rotated point
+     */
+    public static vector3D rotateVectorY(vector3D v, double theta)
+    {
+        double x = (Math.cos(theta) * v.x) + (Math.sin(theta) * v.z);
+        double y = v.y;
+        double z = (-Math.sin(theta) * v.x) + (Math.cos(theta) * v.z);
+        return new vector3D(x, y, z);
+    }
+    
+    /**
+     * Rotate a point v, around the Z axis counterclockwise theta degrees, if viewed as if the axis is pointing towards the viewer
+     * @param v - the position vector representing the point to be rotated
+     * @param theta - the angle of rotation
+     * @return The rotated point
+     */
+    public static vector3D rotateVectorZ(vector3D v, double theta)
+    {
+        double x = (Math.cos(theta) * v.x) + (-Math.sin(theta) * v.y);
+        double y = (Math.sin(theta) * v.x) + (Math.cos(theta) * v.y);
+        double z = v.z;
+        return new vector3D(x, y, z);
+    }
+    
+    /**
+     * Rotate a point v, around an axis r, counterclockwise theta degrees, if viewed as if the axis is pointing towards the viewer
+     * @param r
+     * @param v
+     * @param theta
+     * @return 
+     */
+    public static vector3D rotateCustom(vector3D r, vector3D v, double theta)
+    {
+        double cosx = Math.cos(theta);//define commonly used values
+        double sinx = Math.cos(theta);
+        double cosx1 = 1 - cosx;
+        
+        double a = cosx + ((r.x * r.x) * cosx1);//define all the components of the rotation matrix
+        double b = (r.x * r.y * cosx1) - (r.z * sinx);
+        double c = (r.x * r.z * cosx1) - (r.x * sinx);
+        double d = (r.y * r.x * cosx1) + (r.z * sinx);
+        double e = cosx + ((r.y * r.y) * cosx1);
+        double f = (r.y * r.z * cosx1) - (r.x * sinx);
+        double g = (r.z * r.x * cosx1) - (r.y * sinx);
+        double h = (r.z * r.y * cosx1) + (r.x * sinx);
+        double i = cosx + ((r.z * r.z) * cosx1);
+        
+        double x = (a * v.x) + (b * v.y) + (c * v.z);//multiply the rotation matrix by the vector
+        double y = (d * v.x) + (e * v.y) + (f * v.z);
+        double z = (g * v.x) + (h * v.y) + (i * v.z);
+        
+        return new vector3D(x, y, z);
+    }
+    
+    /**
      * returns a vector based on 2 angles
      * 
      * --may be broken to some degree--
