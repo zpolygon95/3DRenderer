@@ -3,37 +3,43 @@ package raytracing;
 import java.awt.Color;
 
 /**
- * To be continued!
+ * Used as a parent object for all light sources
  * @author Zachary
  */
-public class LightSource3D extends Shape3D
+public abstract class LightSource3D
 {
-    Shape3D shape;
-    Vector3D sourcePoint;
-    Color lightColor;
+    /**
+     * returns a specific color based on a given position vector
+     * @param point - The position vector of the point to be lighted
+     * @return the color of the light at that point
+     */
+    public abstract Color getLightColorForPoint(Vector3D point);
     
-    public LightSource3D(Vector3D p, Color l, Shape3D s)
+    public abstract Vector3D getSource();
+    
+    public static Color applyFilter(Color filterColor, Color originalColor)
     {
-        sourcePoint = p;
-        lightColor = l;
-        shape = s;
-    }
-
-    @Override
-    public RayCollisionResult getRayColorandPos(Line3D ray)
-    {
-        if (shape == null)
-            return null;
-        return shape.getRayColorandPos(ray);
+        int r = originalColor.getRed();
+        int g = originalColor.getGreen();
+        int b = originalColor.getBlue();
+        if (filterColor.getRed() < originalColor.getRed())
+            r = filterColor.getRed();
+        if (filterColor.getGreen() < originalColor.getGreen())
+            g = filterColor.getGreen();
+        if (filterColor.getBlue() < originalColor.getBlue())
+            b = filterColor.getBlue();
+        
+        return new Color(r, g, b);
     }
     
-    public Vector3D getSource()
+    public static Color resolveReflection(SurfaceColor initial, Color reflection)
     {
-        return sourcePoint;
+        Color addingColor = new Color(initial.getRed(), initial.getGreen(), initial.getBlue(), initial.getRelfectiveness());
+        return Vector3D.addColors(addingColor, reflection);
     }
     
-    public Color getColor()
+    public static Color resolveTransparency(SurfaceColor initial, Color behind)
     {
-        return lightColor;
+        return null;
     }
 }

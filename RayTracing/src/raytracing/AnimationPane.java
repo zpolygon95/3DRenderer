@@ -26,7 +26,7 @@ class AnimationPane extends JPanel
         cTilt = cYaw = 0;//declaring a bunch of fun shapes and objects we use for testing
         cRoll = 0;
         cPos = new Vector3D(0, 2, 0);
-        camera = new Camera3D(cPos, cTilt, cYaw, cRoll, 250, 250, Math.PI/4, Math.PI/4);
+        camera = new Camera3D(cPos, cTilt, cYaw, cRoll, 500, 500, Math.PI/4, Math.PI/4);
         
         Vert = new Vector3D(3, 1, 1);
         l1 = new Vector3D(0, 0, 1);
@@ -51,9 +51,14 @@ class AnimationPane extends JPanel
         pGram3 = new Parallelogram3D(new Vector3D(1, 1, 1), new Vector3D(0, 1, 0), new Vector3D(0, 0, 1), Color.LIGHT_GRAY);
         
         
-        GriddedPlane3D gp = new GriddedPlane3D(Vector3D.ZERO_VECTOR, new Vector3D(0, -5, 0), new Vector3D(1, 0, 0), Color.BLUE, new Color(250, 0, 250), 0.1, 1);
+        GriddedPlane3D gp = new GriddedPlane3D(Vector3D.ZERO_VECTOR, new Vector3D(0, -5, 0), new Vector3D(1, 0, 0), Color.BLUE, Color.BLUE, 0.1, 1);
         
-        sg = new SceneGraph(null, null, Color.BLACK, 40, Color.BLACK);
+        AmbientLightSource als = new AmbientLightSource(new Color(100, 100, 100));
+        PointLightSource pls = new PointLightSource(new Vector3D(10, 10, 10), Color.WHITE);
+        
+        sg = new SceneGraph(null, null, 40, Color.BLACK);
+        sg.addLight(als);
+        sg.addLight(pls);
         sg.addShape(pDon);
         sg.addShape(pDon1);
         sg.addShape(pDon2);

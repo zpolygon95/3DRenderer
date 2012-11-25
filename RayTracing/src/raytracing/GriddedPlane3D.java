@@ -57,8 +57,7 @@ public class GriddedPlane3D extends Shape3D
             c = lineColor;
             return new RayCollisionResult(collisionPoint, ray.getStartPoint(), c);
         }
-        return null;
-        //return new RayCollisionResult(collisionPoint, ray.getStartPoint(), c);
+        return new RayCollisionResult(collisionPoint, ray.getStartPoint(), c);
     }
     
 }

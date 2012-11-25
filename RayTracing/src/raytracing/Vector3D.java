@@ -292,6 +292,22 @@ public class Vector3D
         return new Color((int)result.x, (int)result.y, (int)result.z);
     }
     
+    public static Color scaleColor(Color high, Color low, double scalar)
+    {
+        if (scalar < 0 || scalar > 1)
+            throw new IllegalArgumentException("Scalar must be between 0 and 1. Scalar = " + scalar);
+        
+        double r = (low.getRed() + ((double)(high.getRed() - low.getRed()) * scalar));
+        double g = (low.getGreen() + ((double)(high.getGreen() - low.getGreen()) * scalar));
+        double b = (low.getBlue() + ((double)(high.getBlue() - low.getBlue()) * scalar));
+        
+        int R = (int)Math.round(r);
+        int G = (int)Math.round(g);
+        int B = (int)Math.round(b);
+        
+        return new Color(R, G, B);
+    }
+    
     /**
      * A magic method that rounds a double to a specified precision
      * @param value - the value to be rounded
