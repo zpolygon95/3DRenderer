@@ -4,6 +4,7 @@ import java.awt.Color;
 
 /**
  * Used in defining the properties of the surface of a Shape3D object
+ * To be continued!
  * @author Zachary
  */
 public class SurfaceColor

@@ -292,6 +292,13 @@ public class Vector3D
         return new Color((int)result.x, (int)result.y, (int)result.z);
     }
     
+    /**
+     * Scales a color between to extremes based on a scalar value
+     * @param high - the high extreme color
+     * @param low - the low extreme color
+     * @param scalar - distance between the two extremes in a range from 0 to 1
+     * @return 
+     */
     public static Color scaleColor(Color high, Color low, double scalar)
     {
         if (scalar < 0 || scalar > 1)

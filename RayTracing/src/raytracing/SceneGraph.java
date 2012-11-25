@@ -93,10 +93,10 @@ public class SceneGraph
                 int maxG = 0;
                 int maxB = 0;
                 
-                for (LightSource3D ls : lights)
+                for (LightSource3D ls : lights)//loop through all the light sources
                 {
                     Color lsColor = ls.getLightColorForPoint(collision.getColisionPoint());
-                    if (ls instanceof AmbientLightSource)
+                    if (ls instanceof AmbientLightSource)//if the light is ambient, it will have no obstructions
                     {
                         if (lsColor.getRed() > maxR)
                             maxR = lsColor.getRed();
@@ -106,18 +106,18 @@ public class SceneGraph
                             maxB = lsColor.getBlue();
                     }
                     
-                    if (ls instanceof PointLightSource)
+                    if (ls instanceof PointLightSource)//if the light is point based, check for obstructions between the point being illuminated and the light source
                     {
                         Vector3D lightRayDir = Vector3D.subtract(ls.getSource(), collision.getColisionPoint());
                         Line3D lightRay = new Line3D(collision.getColisionPoint(), lightRayDir);
                         RayCollisionResult obstruction = null;
-                        for (Shape3D s : nodeTree)
+                        for (Shape3D s : nodeTree)//check for collisions along a line
                         {
                             obstruction = s.getRayColorandPos(lightRay);
                             if (obstruction != null)
                                 break;
                         }
-                        if (obstruction == null)
+                        if (obstruction == null)//if there were no obstructions, add the light
                         {
                             if (lsColor.getRed() > maxR)
                                 maxR = lsColor.getRed();
@@ -130,7 +130,7 @@ public class SceneGraph
                 }
                 
                 Color totalLightColor = new Color(maxR, maxG, maxB);
-                Color pointColor = LightSource3D.applyFilter(totalLightColor, collision.getColor());
+                Color pointColor = LightSource3D.applyFilter(totalLightColor, collision.getColor());//filter the color of the shape based on available light
                 
                 image.setRGB(x, y, pointColor.getRGB());
             }

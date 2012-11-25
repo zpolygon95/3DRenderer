@@ -54,7 +54,7 @@ class AnimationPane extends JPanel
         GriddedPlane3D gp = new GriddedPlane3D(Vector3D.ZERO_VECTOR, new Vector3D(0, -5, 0), new Vector3D(1, 0, 0), Color.BLUE, Color.BLUE, 0.1, 1);
         
         AmbientLightSource als = new AmbientLightSource(new Color(100, 100, 100));
-        PointLightSource pls = new PointLightSource(new Vector3D(10, 10, 10), Color.WHITE);
+        DiffuseLightSource pls = new DiffuseLightSource(new Vector3D(10, 10, 10), Color.WHITE, 40);
         
         sg = new SceneGraph(null, null, 40, Color.BLACK);
         sg.addLight(als);
