@@ -12,4 +12,6 @@ public abstract class Shape3D
      * @return The position and color of the intersection
      */
     public abstract RayCollisionResult getRayColorandPos(Line3D ray);
+    
+    public abstract Vector3D getNormal();
 }

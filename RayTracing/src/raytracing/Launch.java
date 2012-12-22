@@ -10,6 +10,8 @@ import javax.swing.JFrame;
  */
 public class Launch
 {
+    public static final AnimationPane panel = new AnimationPane();
+    
     /**
      * main
      * @param args the command line arguments
@@ -20,7 +22,8 @@ public class Launch
         frame.setSize(600, 600);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLocationRelativeTo(null);
-        final AnimationPane panel = new AnimationPane();
+        
+        //this is a change I made just now
         
         frame.addKeyListener(new KeyListener()//passes the KeyListener to the animation panel
         {

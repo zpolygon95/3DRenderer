@@ -33,6 +33,12 @@ public class Parallelopipedon extends Shape3D
         pGrams[5] = new Parallelogram3D(p1, d3, d5, c[5]);
     }
     
+    @Override
+    public Vector3D getNormal()
+    {
+        return null;//no normal for collections of lesser objects
+    }
+    
     /**
      * Finds the results of the collisions with all of this objects components, and returns the closest one
      * @param ray - the ray to be collided

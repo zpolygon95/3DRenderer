@@ -1,6 +1,7 @@
 package raytracing;
 
 import java.awt.Color;
+import java.util.Objects;
 
 /**
  * This class was created as a test for texturing of surfaces using mock coordinates
@@ -34,6 +35,12 @@ public class GriddedPlane3D extends Shape3D
         divisionWidth = dw;
     }
     
+    @Override
+    public Vector3D getNormal()
+    {
+        return normal;
+    }
+    
     /**
      * This method calculates the collision of a ray of 'light' with this object
      * @param ray the ray to be used in calculation
@@ -55,9 +62,30 @@ public class GriddedPlane3D extends Shape3D
         if ((Math.abs(t % divisionWidth) < lineWidth) || (Math.abs(u % divisionWidth) < lineWidth))
         {
             c = lineColor;
-            return new RayCollisionResult(collisionPoint, ray.getStartPoint(), c);
         }
-        return new RayCollisionResult(collisionPoint, ray.getStartPoint(), c);
+        return new RayCollisionResult(collisionPoint, ray.getStartPoint(), c, this);
+    }
+    
+    @Override
+    public boolean equals(Object o)
+    {
+        if (o instanceof GriddedPlane3D)
+            return hashCode() == o.hashCode();
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 67 * hash + Objects.hashCode(this.zeroPoint);
+        hash = 67 * hash + Objects.hashCode(this.normal);
+        hash = 67 * hash + Objects.hashCode(this.xDirection);
+        hash = 67 * hash + Objects.hashCode(this.yDirection);
+        hash = 67 * hash + Objects.hashCode(this.backColor);
+        hash = 67 * hash + Objects.hashCode(this.lineColor);
+        hash = 67 * hash + (int) (Double.doubleToLongBits(this.lineWidth) ^ (Double.doubleToLongBits(this.lineWidth) >>> 32));
+        hash = 67 * hash + (int) (Double.doubleToLongBits(this.divisionWidth) ^ (Double.doubleToLongBits(this.divisionWidth) >>> 32));
+        return hash;
     }
     
 }

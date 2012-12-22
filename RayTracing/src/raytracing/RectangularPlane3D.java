@@ -22,6 +22,12 @@ public class RectangularPlane3D extends Shape3D
                 Vector3D.scaleVector(p2, -width),
                 false, c);
     }
+    
+    @Override
+    public Vector3D getNormal()
+    {
+        return null;//no normal for collections of lesser objects
+    }
 
     @Override
     public RayCollisionResult getRayColorandPos(Line3D ray)

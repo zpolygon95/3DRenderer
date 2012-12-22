@@ -80,12 +80,18 @@ public class TriangularPlane3D extends Shape3D
             collisionColor = edgeColor;
         
         if (collisionPoint != null)
-            return new RayCollisionResult(collisionPoint, ray.getStartPoint(), collisionColor);
+            return new RayCollisionResult(collisionPoint, ray.getStartPoint(), collisionColor, this);
         
         return null;
     }
     
     //accessor methods
+    
+    @Override
+    public Vector3D getNormal()
+    {
+        return normal;
+    }
     
     public Vector3D getVertex()
     {

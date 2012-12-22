@@ -29,6 +29,13 @@ public class Parallelogram3D extends Shape3D
     
     //accessor methods
     
+    @Override
+    public Vector3D getNormal()
+    {
+        return null;//no normal for collections of lesser objects
+    }
+    
+    
     public TriangularPlane3D getT1()
     {
         return t1;

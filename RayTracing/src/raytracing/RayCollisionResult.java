@@ -10,6 +10,7 @@ public class RayCollisionResult
 {
     private Vector3D source, dest;//orientation
     private Color color;//data
+    private Shape3D object;
     
     /**
      * creates a new collision result with the specified data
@@ -17,11 +18,12 @@ public class RayCollisionResult
      * @param camP - the perspective point of the camera
      * @param c - the color of the "reflected light"
      */
-    public RayCollisionResult(Vector3D colP, Vector3D camP, Color c)
+    public RayCollisionResult(Vector3D colP, Vector3D camP, Color c, Shape3D o)
     {//assigg appropriate values
         source = camP;
         dest = colP;
         color = c;
+        object = o;
     }
     
     //accessor methods
@@ -46,5 +48,16 @@ public class RayCollisionResult
         return color;
     }
     
-    //and accessor methods
+    public Shape3D getObject()
+    {
+        return object;
+    }
+    
+    //end accessor methods
+    
+    @Override
+    public String toString()
+    {
+        return "Ray cast from: " + source + "to : " + dest + "\n- Length: " + getRayLength() + "\n- Object Color: " + color + "\n- Object: " + object;
+    }
 }

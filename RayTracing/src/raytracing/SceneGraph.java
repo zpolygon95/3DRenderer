@@ -75,7 +75,7 @@ public class SceneGraph
             for (int y = 0; y < camera.getVertRes(); y++)//vertical loop start
             {
                 Line3D ray = camera.getRayForPixel(x, y);//we create the ray traveling through the specified pixel
-                RayCollisionResult collision = new RayCollisionResult(new Vector3D(fogDistance, 0, 0), camera.getPosition(), fogColor);//we create the default collision result for checking against subsequent results
+                RayCollisionResult collision = new RayCollisionResult(new Vector3D(fogDistance, 0, 0), camera.getPosition(), fogColor, null);//we create the default collision result for checking against subsequent results
                 
                 for (Shape3D s : nodeTree)//we check all shapes in the nodeTree object against the ray
                 {
@@ -115,7 +115,13 @@ public class SceneGraph
                         {
                             obstruction = s.getRayColorandPos(lightRay);
                             if (obstruction != null)
+                            {
+                                if (obstruction.getObject().equals(collision.getObject()))
+                                {
+                                    obstruction = null;
+                                }
                                 break;
+                            }
                         }
                         if (obstruction == null)//if there were no obstructions, add the light
                         {
@@ -137,5 +143,84 @@ public class SceneGraph
         }
         
         return image;
+    }
+    
+    public int getPixelColor(Camera3D camera, int x, int y)
+    {
+        Line3D ray = camera.getRayForPixel(x, y);//we create the ray traveling through the specified pixel
+        RayCollisionResult collision = new RayCollisionResult(new Vector3D(fogDistance, 0, 0), camera.getPosition(), fogColor, null);//we create the default collision result for checking against subsequent results
+        
+        for (Shape3D s : nodeTree)//we check all shapes in the nodeTree object against the ray
+        {
+            RayCollisionResult newC = s.getRayColorandPos(ray);
+            if (newC != null)
+            {
+                if (newC.getRayLength() < collision.getRayLength())
+                    collision = newC;//if the new collision result is closer than the current collision result, set current collision result to the new collision result
+            }
+        }
+        
+        //the following code controls the illumination of the point
+        if (collision != null)
+        {
+            int maxR = 0;//The maximum amounts of red, green, and blue light available in total at the selected point
+            int maxG = 0;
+            int maxB = 0;
+            
+            for (LightSource3D ls : lights)//loop through all the light sources
+            {
+                Color lsColor = ls.getLightColorForPoint(collision.getColisionPoint());
+                if (ls instanceof AmbientLightSource)//if the light is ambient, it will have no obstructions
+                {
+                    if (lsColor.getRed() > maxR)
+                        maxR = lsColor.getRed();
+                    if (lsColor.getGreen() > maxG)
+                        maxG = lsColor.getGreen();
+                    if (lsColor.getBlue() > maxB)
+                        maxB = lsColor.getBlue();
+                }
+                
+                if (ls instanceof PointLightSource)//if the light is point based, check for obstructions between the point being illuminated and the light source
+                {
+                    Vector3D lightRayDir = Vector3D.subtract(ls.getSource(), collision.getColisionPoint());
+                    Line3D lightRay = new Line3D(collision.getColisionPoint(), lightRayDir);
+                        RayCollisionResult obstruction = null;
+                        for (Shape3D s : nodeTree)//check for collisions along a line
+                        {
+                            obstruction = s.getRayColorandPos(lightRay);
+                            
+                            if (obstruction != null)
+                            {
+                                
+                                if (Vector3D.getDotProduct(obstruction.getObject().getNormal(), Vector3D.subtract(obstruction.getColisionPoint(), ls.getSource())) < Math.PI / 2)
+                                {
+                                        obstruction = null;
+                                }
+                                else
+                                {
+                                    break;
+                                }
+                            }
+                        }
+                        //System.out.println("==============" + x + "================" + y + "==============");
+                        if (obstruction == null)//if there were no obstructions, add the light
+                        {
+                            if (lsColor.getRed() > maxR)
+                                maxR = lsColor.getRed();
+                            if (lsColor.getGreen() > maxG)
+                                maxG = lsColor.getGreen();
+                            if (lsColor.getBlue() > maxB)
+                                maxB = lsColor.getBlue();
+                        }
+                    }
+                }
+            
+            
+            Color totalLightColor = new Color(maxR, maxG, maxB);
+            Color pointColor = LightSource3D.applyFilter(totalLightColor, collision.getColor());//filter the color of the shape based on available light
+
+            return pointColor.getRGB();
+        }
+        return fogColor.getRGB();
     }
 }

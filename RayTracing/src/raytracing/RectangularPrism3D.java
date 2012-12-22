@@ -31,6 +31,12 @@ public class RectangularPrism3D extends Shape3D
         rects[4] = new RectangularPlane3D(p1, d, d2, -l, -h, c[4]);
         rects[5] = new RectangularPlane3D(p1, d2, d1, -h, -w, c[5]);
     }
+    
+    @Override
+    public Vector3D getNormal()
+    {
+        return null;//no normal for collections of lesser objects
+    }
 
     @Override
     public RayCollisionResult getRayColorandPos(Line3D ray)
