@@ -55,9 +55,20 @@ public class AmbientLightSource extends LightSource3D
     public Color getLightColorForPoint(Vector3D point)
     {
         if (distance == 0 || source == null)
+        {
             return sourceColor;
+        }
         if (Vector3D.subtract(point, source).getMagnitude() <= distance)
+        {
             return sourceColor;
+        }
         return new Color(0, 0, 0);
     }
+    
+    /**
+     * Does nothing except fulfill inheritance requirements, as ambient light has no source
+     * @param vector unused
+     */
+    @Override
+    public void setPoint(Vector3D vector) {}
 }

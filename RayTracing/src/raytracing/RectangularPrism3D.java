@@ -44,9 +44,16 @@ public class RectangularPrism3D extends Shape3D
         for (RectangularPlane3D p : rects)
         {
             if (p.getRayColorandPos(ray) != null)
+            {
                 return p.getRayColorandPos(ray);
+            }
         }
         return null;
+    }
+
+    @Override
+    public Vector3D[][] getCorners() {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
     
 }

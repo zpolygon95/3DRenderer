@@ -17,17 +17,29 @@ public abstract class LightSource3D
     
     public abstract Vector3D getSource();
     
+    /**
+     * sets the source point of the light source
+     * @param vector the new point of the light source
+     */
+    public abstract void setPoint(Vector3D vector);
+    
     public static Color applyFilter(Color filterColor, Color originalColor)
     {
         int r = originalColor.getRed();
         int g = originalColor.getGreen();
         int b = originalColor.getBlue();
         if (filterColor.getRed() < originalColor.getRed())
+        {
             r = filterColor.getRed();
+        }
         if (filterColor.getGreen() < originalColor.getGreen())
+        {
             g = filterColor.getGreen();
+        }
         if (filterColor.getBlue() < originalColor.getBlue())
+        {
             b = filterColor.getBlue();
+        }
         
         return new Color(r, g, b);
     }

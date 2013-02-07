@@ -67,10 +67,18 @@ public class GriddedPlane3D extends Shape3D
     }
     
     @Override
+    public Vector3D[][] getCorners()
+    {
+        return null;//FIX THIS SOMEHOW...Polygon renderer may not work with infinite planes
+    }
+    
+    @Override
     public boolean equals(Object o)
     {
         if (o instanceof GriddedPlane3D)
+        {
             return hashCode() == o.hashCode();
+        }
         return false;
     }
 
@@ -87,5 +95,5 @@ public class GriddedPlane3D extends Shape3D
         hash = 67 * hash + (int) (Double.doubleToLongBits(this.divisionWidth) ^ (Double.doubleToLongBits(this.divisionWidth) >>> 32));
         return hash;
     }
-    
+
 }

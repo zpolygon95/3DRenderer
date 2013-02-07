@@ -10,6 +10,7 @@ import java.util.Objects;
 public class Parallelogram3D extends Shape3D
 {
     TriangularPlane3D t1, t2;//components
+    Color[][] pixMap;
     
     /**
      * creates a new Parallelogram3D
@@ -25,6 +26,56 @@ public class Parallelogram3D extends Shape3D
         Vector3D l2 = Vector3D.scaleVector(l1, -1);
         Vector3D l3 = Vector3D.scaleVector(l, -1);
         t2 = new TriangularPlane3D(p1, l2, l3, false, c);
+        pixMap = new Color[11][11];//setting values for the pixmap images -- eventually there will only be a constructor to handle setting pixmap values
+        for (int x = 0; x < pixMap.length; x++)
+        {
+            for (int y = 0; y < pixMap[x].length; y++)
+            {
+                pixMap[x][y] = Color.BLACK;
+            }
+        }
+        for (int i = 0; i < pixMap.length; i++)//coloring the edges of the pixmap red
+        {
+            pixMap[i][0] = Color.RED;
+            pixMap[0][i] = Color.RED;
+            pixMap[i][pixMap.length - 1] = Color.RED;
+            pixMap[pixMap.length - 1][i] = Color.RED;
+        }
+//        pixMap[3][2] = c;
+//        pixMap[4][2] = c;
+//        pixMap[5][3] = c;
+//        pixMap[6][2] = c;
+//        pixMap[7][2] = c;
+//        pixMap[8][3] = c;
+//        pixMap[8][4] = c;
+//        pixMap[8][5] = c;
+//        pixMap[7][6] = c;    //Heart
+//        pixMap[6][7] = c;
+//        pixMap[5][8] = c;
+//        pixMap[4][7] = c;
+//        pixMap[3][6] = c;
+//        pixMap[2][5] = c;
+//        pixMap[2][4] = c;
+//        pixMap[2][3] = c;
+        
+        pixMap[4][2] = c;  //smiley face first eye
+        pixMap[4][3] = c;
+        pixMap[4][4] = c;
+        
+        pixMap[6][2] = c; //smiley face second eye
+        pixMap[6][3] = c;
+        pixMap[6][4] = c;
+        
+        pixMap[3][6] = c;  //smiley face mouth
+        pixMap[4][6] = c;
+        pixMap[5][6] = c;
+        pixMap[6][6] = c;
+        pixMap[7][6] = c;
+        pixMap[7][7] = c;
+        pixMap[6][8] = c;
+        pixMap[5][8] = c;
+        pixMap[4][8] = c;
+        pixMap[3][7] = c;
     }
     
     //accessor methods
@@ -56,10 +107,67 @@ public class Parallelogram3D extends Shape3D
     @Override
     public RayCollisionResult getRayColorandPos(Line3D ray)
     {
-        RayCollisionResult c = t1.getRayColorandPos(ray);
-        if (c != null)
-            return c;
-        return t2.getRayColorandPos(ray);
+        Vector3D point = getCollisionPoint(ray, 11, 11);//finds the "coordinate" on the parallelogram where the collision took place
+        if (point == null)
+        {
+            return null;
+        }
+        int x = (int)point.getX();
+        int y = (int)point.getY();
+        if ((x < 0 || x >= pixMap.length) || (y < 0 || y >= pixMap[x].length))//check for those pesky out of bounds exceptions
+        {
+            return null;
+        }
+        Color c = pixMap[x][y];//set returned color to its value in the pixmap
+        
+        RayCollisionResult col = t1.getRayColorandPos(ray);//get other collision data
+        if (col != null)
+        {
+            return new RayCollisionResult(col.getColisionPoint(), col.getSource(), c, t1);
+        }
+        col =  t2.getRayColorandPos(ray);
+        if (col != null)
+        {
+            return new RayCollisionResult(col.getColisionPoint(), col.getSource(), c, t2);
+        }
+        return null;
+    }
+    
+    /**
+     * Finds the coordinate on the parallelogram where the collision took place
+     * @param ray the ray to be collided
+     * @param horizRes the horizontal resolution of the pixmap - will be changed
+     * @param vertRes the vertical resolution of the pixmap - will be changed
+     * @return a Vector3D object used as a 2D vector containing the point of collision
+     */
+    public Vector3D getCollisionPoint(Line3D ray, int horizRes, int vertRes)
+    {
+        Vector3D point = t1.getCollisionPoint(ray, horizRes, vertRes);
+        if (point != null)
+        {
+            return point;
+        }
+        point = t2.getCollisionPoint(ray, horizRes, vertRes);
+        if (point != null)
+        {
+            return new Vector3D(horizRes - point.getY() - 1, horizRes - point.getX() - 1, 0);
+        }
+        return null;
+    }
+    
+    /**
+     * finds the points of all of the coordinates of the parallelogram
+     * @return the corner points
+     */
+    @Override
+    public Vector3D[][] getCorners()
+    {
+        Vector3D[][] vertices = new Vector3D[1][4];
+        vertices[0][0] = t1.getVertex();
+        vertices[0][1] = t1.getVertex1();
+        vertices[0][2] = t2.getVertex();
+        vertices[0][3] = t1.getVertex2();
+        return vertices;
     }
 
     /**
@@ -84,7 +192,9 @@ public class Parallelogram3D extends Shape3D
     public boolean equals(Object o)
     {
         if (o instanceof Parallelogram3D)
+        {
             return o.hashCode() == hashCode();
+        }
         return false;
     }
 }

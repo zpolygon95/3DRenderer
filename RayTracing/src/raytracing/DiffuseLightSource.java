@@ -32,7 +32,9 @@ public class DiffuseLightSource extends PointLightSource
     {
         double pointDistance = Vector3D.subtract(v, source).getMagnitude();
         if (pointDistance > maxDistance)
+        {
             return new Color(0, 0, 0);
+        }
         double scalar = pointDistance / maxDistance;
         return Vector3D.scaleColor(new Color(0, 0, 0), sourceColor, scalar);
     }

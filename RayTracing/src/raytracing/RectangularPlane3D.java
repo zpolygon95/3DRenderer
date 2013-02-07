@@ -35,7 +35,9 @@ public class RectangularPlane3D extends Shape3D
         RayCollisionResult c1 = t1.getRayColorandPos(ray);
         RayCollisionResult c2 = t2.getRayColorandPos(ray);
         if (c1 == null)
+        {
             return c2;
+        }
         return c1;
     }
     
@@ -43,7 +45,9 @@ public class RectangularPlane3D extends Shape3D
     public boolean equals(Object o)
     {
         if (o instanceof RectangularPlane3D)
+        {
             return o.hashCode() == hashCode();
+        }
         return false;
     }
 
@@ -53,5 +57,10 @@ public class RectangularPlane3D extends Shape3D
         hash = 29 * hash + Objects.hashCode(this.t1);
         hash = 29 * hash + Objects.hashCode(this.t2);
         return hash;
+    }
+
+    @Override
+    public Vector3D[][] getCorners() {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

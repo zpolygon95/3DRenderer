@@ -32,7 +32,7 @@ public class AnimationPane extends JPanel
         cTilt = cYaw = 0;//declaring a bunch of fun shapes and objects we use for testing
         cRoll = 0;
         cPos = new Vector3D(2, 3, 8);
-        camera = new Camera3D(cPos, new Vector3D(0, 0, -1), new Vector3D(1, 0, 0), 500, 500, Math.PI/4, Math.PI/4);
+        camera = new Camera3D(cPos, new Vector3D(0, 0, -1), new Vector3D(1, 0, 0), 1000, 1000, Math.PI/4, Math.PI/4);
         
         Vert = new Vector3D(3, 1, 1);
         l1 = new Vector3D(0, 0, 1);
@@ -70,15 +70,18 @@ public class AnimationPane extends JPanel
         sg = new SceneGraph(null, null, 40, Color.BLACK);
         sg.addLight(als);
         sg.addLight(pls);
-        sg.addShape(t1);
-        //sg.addShape(pDon1);
-        //sg.addShape(pDon2);
-        //sg.addShape(pDon3);
-        //sg.addShape(pDon4);
-        //sg.addShape(pDon5);
-        //sg.addShape(pDon6);
-        //sg.addShape(pDon7);
+        //sg.addShape(t1);
+        sg.addShape(pDon);
+        sg.addShape(pDon1);
+        sg.addShape(pDon2);
+        sg.addShape(pDon3);
+        sg.addShape(pDon4);
+        sg.addShape(pDon5);
+        sg.addShape(pDon6);
+        sg.addShape(pDon7);
+        //sg.addShape(new Parallelogram3D(new Vector3D(2, 3, 0), l3, l2, Color.WHITE));
         sg.addShape(gp);
+        
         
         status = 0;
         
@@ -109,7 +112,9 @@ public class AnimationPane extends JPanel
         g.drawRoundRect(100, 100, 200, 20, 10, 10);
         
         if (status >= camera.getVertRes())
+        {
             g2.drawImage(frame, null, 0, 0);
+        }
         else
         {
             for(int x = 0; x < camera.getHorizRes(); x++)
@@ -210,6 +215,24 @@ public class AnimationPane extends JPanel
                 refreshImage();
                 repaint();
                 break;
+//            case KeyEvent.VK_NUMPAD8://move the point light source in the positive y direction
+//                sg.lights.get(0).setPoint(Vector3D.add(sg.lights.get(0).getSource(), new Vector3D(0, 1, 0)));
+//                break;
+//            case KeyEvent.VK_NUMPAD4://move the PLS in the negative x direction
+//                sg.lights.get(0).setPoint(Vector3D.add(sg.lights.get(0).getSource(), new Vector3D(-1, 0, 0)));
+//                break;
+//            case KeyEvent.VK_NUMPAD6://move the PLS in the positive x direction
+//                sg.lights.get(0).setPoint(Vector3D.add(sg.lights.get(0).getSource(), new Vector3D(1, 0, 0)));
+//                break;
+//            case KeyEvent.VK_NUMPAD2://move the PLS in the negative y direction
+//                sg.lights.get(0).setPoint(Vector3D.add(sg.lights.get(0).getSource(), new Vector3D(0, -1, 0)));
+//                break;
+//            case KeyEvent.VK_NUMPAD7://move the PLS in the positive z direction
+//                sg.lights.get(0).setPoint(Vector3D.add(sg.lights.get(0).getSource(), new Vector3D(0, 0, 1)));
+//                break;
+//            case KeyEvent.VK_NUMPAD9://move the PLS in the negative z direction
+//                sg.lights.get(0).setPoint(Vector3D.add(sg.lights.get(0).getSource(), new Vector3D(0, 0, -1)));
+//                break;
         }
     }
     

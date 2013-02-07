@@ -57,7 +57,9 @@ public class TriangularPlane3D extends Shape3D
     {//we first find how far along the ray the collision occurs
         double scalar = Vector3D.getDotProduct(normal, Vector3D.subtract(vertex, ray.getStartPoint())) / Vector3D.getDotProduct(normal, ray.getDirection());
         if (scalar <= 0)
+        {
             return null;
+        }
         //we define the point of collision
         Vector3D collisionPoint = Vector3D.add(Vector3D.scaleVector(ray.getDirection(), scalar), ray.getStartPoint());
         //we find the vector that lies on the plane between the vertex of the triangle and the collsion point
@@ -73,16 +75,79 @@ public class TriangularPlane3D extends Shape3D
         double tI = Vector3D.getDotProduct(coplanarCollision, leg1PerpDot) / Vector3D.getDotProduct(leg2, leg1PerpDot);
         
         if (!((sI >= 0) && (tI >= 0) && (sI + tI <= 1)))//if the collision point lies outside the bounds of the triangle
+        {
             return null;
+        }
         
         Color collisionColor = planeColor;
+        //don't mind this mess, just me playing with colors
+        int sIi = (int) (sI * 21);
+        int tIi = (int)(tI * 21);
+        
+        if (((sIi % 3) == 0) || ((tIi % 3) == 0))
+        {
+            collisionColor = Color.RED;
+        }
+        else if (((sIi % 3) == 1) || ((tIi % 3) == 1))
+        {
+            collisionColor = Color.GREEN;
+        }
+        
         if ((sI < 0.01) || (tI < 0.01))//if the collision is close to an edge
+        {
             collisionColor = edgeColor;
+        }
+        
+//        if (((sI > 0.45) && (sI < 0.55)) || ((tI > 0.45) && (tI < 0.55)))
+//        {
+//            collisionColor = Color.WHITE;
+//        }
         
         if (collisionPoint != null)
+        {
             return new RayCollisionResult(collisionPoint, ray.getStartPoint(), collisionColor, this);
+        }
         
         return null;
+    }
+    
+    /**
+     * Finds the "coordinates" of the collision. This is somewhat odd for a triangle because the coordinates stop along a diagonal line
+     * @param ray the ray to be collided
+     * @param horizRes the horizontal resolution of the pixmap. to be depreciated
+     * @param vertRes the vertical resolution of the pixmap. to be depreciated
+     * @return 
+     */
+    public Vector3D getCollisionPoint (Line3D ray, int horizRes, int vertRes)
+    {
+        double scalar = Vector3D.getDotProduct(normal, Vector3D.subtract(vertex, ray.getStartPoint())) / Vector3D.getDotProduct(normal, ray.getDirection());
+        if (scalar <= 0)
+        {
+            return null;
+        }
+        //we define the point of collision
+        Vector3D collisionPoint = Vector3D.add(Vector3D.scaleVector(ray.getDirection(), scalar), ray.getStartPoint());
+        //we find the vector that lies on the plane between the vertex of the triangle and the collsion point
+        Vector3D coplanarCollision = Vector3D.subtract(collisionPoint, vertex);
+        
+        //we create vectors that are perpindicular to the two legs and lie in the same plane
+        Vector3D leg1PerpDot = Vector3D.getCrossProduct(normal, leg1);
+        Vector3D leg2PerpDot = Vector3D.getCrossProduct(normal, leg2);
+        
+        //we find the "coordinates" of the collision point relative to the two legs
+        //it works by magic
+        double sI = Vector3D.getDotProduct(coplanarCollision, leg2PerpDot) / Vector3D.getDotProduct(leg1, leg2PerpDot);
+        double tI = Vector3D.getDotProduct(coplanarCollision, leg1PerpDot) / Vector3D.getDotProduct(leg2, leg1PerpDot);
+        
+        if (!((sI >= 0) && (tI >= 0) && (sI + tI <= 1)))//if the collision point lies outside the bounds of the triangle
+        {
+            return null;
+        }
+        
+        int sIi = (int)(sI * vertRes);
+        int tIi = (int)(tI * horizRes);
+        
+        return new Vector3D(tIi, sIi, 0);
     }
     
     //accessor methods
@@ -119,6 +184,16 @@ public class TriangularPlane3D extends Shape3D
     
     //end accessor methods
     
+    @Override
+    public Vector3D[][] getCorners()
+    {
+        Vector3D[][] vertices = new Vector3D[1][3];//hopefully there comes a better way to do this soon
+        vertices[0][0] = vertex;
+        vertices[0][1] = vertex1;
+        vertices[0][2] = vertex2;
+        return vertices;
+    }
+    
     /**
      * used for comparison of an object and a triangular plane
      * @param o the object to be compared
@@ -128,7 +203,9 @@ public class TriangularPlane3D extends Shape3D
     public boolean equals(Object o)
     {
         if (o instanceof TriangularPlane3D)
+        {
             return o.hashCode() == hashCode();
+        }
         return false;
     }
 

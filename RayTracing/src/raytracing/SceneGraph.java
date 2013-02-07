@@ -1,6 +1,8 @@
 package raytracing;
 
 import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.Polygon;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
@@ -20,9 +22,13 @@ public class SceneGraph
         nodeTree = shapes;
         lights = light;
         if (nodeTree == null)
+        {
             nodeTree = new ArrayList<>();
+        }
         if (lights == null)
+        {
             lights = new ArrayList<>();
+        }
         fogDistance = d;
         fogColor = c;
     }
@@ -83,7 +89,9 @@ public class SceneGraph
                     if (newC != null)
                     {
                         if (newC.getRayLength() < collision.getRayLength())
+                        {
                             collision = newC;//if the new collision result is closer than the current collision result, set current collision result to the new collision result
+                        }
                     }
                 }
                 
@@ -99,11 +107,17 @@ public class SceneGraph
                     if (ls instanceof AmbientLightSource)//if the light is ambient, it will have no obstructions
                     {
                         if (lsColor.getRed() > maxR)
+                        {
                             maxR = lsColor.getRed();
+                        }
                         if (lsColor.getGreen() > maxG)
+                        {
                             maxG = lsColor.getGreen();
+                        }
                         if (lsColor.getBlue() > maxB)
+                        {
                             maxB = lsColor.getBlue();
+                        }
                     }
                     
                     if (ls instanceof PointLightSource)//if the light is point based, check for obstructions between the point being illuminated and the light source
@@ -126,11 +140,17 @@ public class SceneGraph
                         if (obstruction == null)//if there were no obstructions, add the light
                         {
                             if (lsColor.getRed() > maxR)
+                            {
                                 maxR = lsColor.getRed();
+                            }
                             if (lsColor.getGreen() > maxG)
+                            {
                                 maxG = lsColor.getGreen();
+                            }
                             if (lsColor.getBlue() > maxB)
+                            {
                                 maxB = lsColor.getBlue();
+                            }
                         }
                     }
                 }
@@ -156,7 +176,9 @@ public class SceneGraph
             if (newC != null)
             {
                 if (newC.getRayLength() < collision.getRayLength())
+                {
                     collision = newC;//if the new collision result is closer than the current collision result, set current collision result to the new collision result
+                }
             }
         }
         
@@ -173,11 +195,17 @@ public class SceneGraph
                 if (ls instanceof AmbientLightSource)//if the light is ambient, it will have no obstructions
                 {
                     if (lsColor.getRed() > maxR)
+                    {
                         maxR = lsColor.getRed();
+                    }
                     if (lsColor.getGreen() > maxG)
+                    {
                         maxG = lsColor.getGreen();
+                    }
                     if (lsColor.getBlue() > maxB)
+                    {
                         maxB = lsColor.getBlue();
+                    }
                 }
                 
                 if (ls instanceof PointLightSource)//if the light is point based, check for obstructions between the point being illuminated and the light source
@@ -192,25 +220,31 @@ public class SceneGraph
                             if (obstruction != null)
                             {
                                 
-                                if (Vector3D.getDotProduct(obstruction.getObject().getNormal(), Vector3D.subtract(obstruction.getColisionPoint(), ls.getSource())) < Math.PI / 2)
-                                {
-                                        obstruction = null;
-                                }
-                                else
-                                {
+                                //if (Vector3D.getDotProduct(obstruction.getObject().getNormal(), Vector3D.subtract(obstruction.getColisionPoint(), ls.getSource())) < Math.PI / 2)
+                                //{
+                                //       obstruction = null;
+                                //}
+                                //else
+                                //{
                                     break;
-                                }
+                                //}
                             }
                         }
                         //System.out.println("==============" + x + "================" + y + "==============");
                         if (obstruction == null)//if there were no obstructions, add the light
                         {
                             if (lsColor.getRed() > maxR)
+                            {
                                 maxR = lsColor.getRed();
+                            }
                             if (lsColor.getGreen() > maxG)
+                            {
                                 maxG = lsColor.getGreen();
+                            }
                             if (lsColor.getBlue() > maxB)
+                            {
                                 maxB = lsColor.getBlue();
+                            }
                         }
                     }
                 }
@@ -222,5 +256,33 @@ public class SceneGraph
             return pointColor.getRGB();
         }
         return fogColor.getRGB();
+    }
+
+    public BufferedImage getPolygonRenderedScene(Camera3D camera)
+    {
+        BufferedImage image = new BufferedImage(camera.getHorizRes(), camera.getVertRes(), BufferedImage.TYPE_INT_RGB);
+        Graphics2D g = image.createGraphics();
+        
+        for (Shape3D s : nodeTree)
+        {
+            Vector3D[][] vertices = s.getCorners();
+            if (vertices != null)
+            {
+                Polygon[] p = new Polygon[vertices.length];
+                for (int x = 0; x < vertices.length; x++)
+                {
+                    for (int y = 0; y < vertices[x].length; y++)
+                    {
+                        //unfinished obviously
+                    }
+                }
+            }
+            else
+            {
+                //do something cool here
+            }
+        }
+        
+        return image;
     }
 }

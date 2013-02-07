@@ -16,7 +16,9 @@ public class Parallelopipedon extends Shape3D
         {
             c = new Color[6];
             for (int i = 0; i < 6; i++)
+            {
                 c[i] = Color.BLACK;
+            }
         }
         pGrams = new Parallelogram3D[6];
         pGrams[0] = new Parallelogram3D(p, d, d1, c[0]);
@@ -54,12 +56,27 @@ public class Parallelopipedon extends Shape3D
             if (c != null && cPrime != null)
             {
                 if (cPrime.getRayLength() < c.getRayLength())
+                {
                     c = cPrime;
+                }
             }
             else if (c == null && cPrime != null)
+            {
                 c = cPrime;
+            }
         }
         return c;
+    }
+
+    @Override
+    public Vector3D[][] getCorners()
+    {
+        Vector3D[][] vertices = new Vector3D[6][4];
+        for (int x = 0; x < pGrams.length; x++)
+        {
+            System.arraycopy(pGrams[x].getCorners()[x], 0, vertices[x], 0, 4);
+        }
+        return vertices;
     }
     
 }

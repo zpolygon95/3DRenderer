@@ -1,5 +1,7 @@
 package raytracing;
 
+import java.awt.Color;
+
 /**
  * This object is used in the creation of 3D images by providing the ray objects to the scene graph
  * @author Zachary
@@ -99,12 +101,26 @@ public class Camera3D
     public Line3D getRayForPixel(int x, int y)
     {//check for out of bounds exceptions
         if ((x < 0 || x >= horizResolution) || (y < 0 || y >= vertResolution))
+        {
             return null;
+        }
         Vector3D xComponent = Vector3D.scaleVector(directionX, ((double)x - ((double)horizResolution/2))/(double)horizResolution);
         Vector3D yComponent = Vector3D.scaleVector(directionY, ((double)y - ((double)vertResolution/2))/(double)vertResolution);
         //combine the components and normalize
         Vector3D dir = Vector3D.add(direction, Vector3D.add(xComponent, yComponent));
         return new Line3D(perspective, dir);
+    }
+    
+    /**
+     * This method will eventually find the pixel that the specified ray runs through, if any
+     * @param ray the ray to be checked, position is assumed to be the perspective of the camera
+     * @return A Vector3D object representing a 2D point by ignoring the Z dimension
+     */
+    public Vector3D getPixelForRay (Vector3D ray)
+    {
+        Vector3D vertex = Vector3D.add(perspective, Vector3D.add(direction, Vector3D.add(Vector3D.scaleVector(directionX, -1), Vector3D.scaleVector(directionY, -1))));
+        Parallelogram3D projectionFace = new Parallelogram3D(vertex, directionX, directionY, Color.BLACK);
+        return projectionFace.getCollisionPoint(new Line3D(perspective, direction), horizResolution, vertResolution);
     }
     
     //mutator methods

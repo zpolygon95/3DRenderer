@@ -78,7 +78,9 @@ public class Vector3D
     {
         double m = v.getMagnitude();
         if (m == 0)
+        {
             return null;
+        }
         return scaleVector(v, 1/m);
     }
     
@@ -214,17 +216,27 @@ public class Vector3D
                 0);
         Vector3D result =  normalize(getCrossProduct(xy, xz));
         if (result == null)
+        {
             System.out.println(xz + "\n" + xy);
+        }
         if (result.x == -0)// signed zero is bad for these types of things
+        {
             result.x = 0;
+        }
         if (result.y == -0)
+        {
             result.y = 0;
+        }
         if (result.z == -0)
+        {
             result.z = 0;
+        }
         if (result.equals(ZERO_VECTOR))//check that you don't mess up all the things
         {
             if (thetaXY == Math.PI/2)
+            {
                 return new Vector3D(0, 1, 0);
+            }
             return new Vector3D(0, -1, 0);
         }
         return normalize(result);//make sure the magnitude is 1
@@ -271,13 +283,17 @@ public class Vector3D
         if (c1 == null)
         {
             if (c2 == null)
+            {
                 return null;
+            }
             return c2;
         }
         if (c2 == null)
         {
             if (c1 == null)
+            {
                 return null;
+            }
             return c1;
         }
         Vector3D c1V = new Vector3D(c1.getRed(), c1.getGreen(), c1.getBlue());
@@ -302,7 +318,9 @@ public class Vector3D
     public static Color scaleColor(Color high, Color low, double scalar)
     {
         if (scalar < 0 || scalar > 1)
+        {
             throw new IllegalArgumentException("Scalar must be between 0 and 1. Scalar = " + scalar);
+        }
         
         double r = (low.getRed() + ((double)(high.getRed() - low.getRed()) * scalar));
         double g = (low.getGreen() + ((double)(high.getGreen() - low.getGreen()) * scalar));
@@ -323,7 +341,10 @@ public class Vector3D
      */
     public static double round(double value, int places)
     {
-        if (places < 0) throw new IllegalArgumentException();
+        if (places < 0)
+        {
+            throw new IllegalArgumentException();
+        }
 
         long factor = (long) Math.pow(10, places);
         value = value * factor;
@@ -335,7 +356,9 @@ public class Vector3D
     public boolean equals(Object o)
     {
         if (o instanceof Vector3D)
+        {
             return o.hashCode() == hashCode();
+        }
         return false;
     }
 

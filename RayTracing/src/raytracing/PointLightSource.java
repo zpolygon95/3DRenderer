@@ -43,4 +43,14 @@ public class PointLightSource extends LightSource3D
         return sourceColor;
     }
     
+    /**
+     * mutator method to change the position of the source
+     * @param point the new source point
+     */
+    @Override
+    public void setPoint(Vector3D point)
+    {
+        source = point;
+    }
+    
 }

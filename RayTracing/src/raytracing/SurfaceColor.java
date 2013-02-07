@@ -22,19 +22,29 @@ public class SurfaceColor
     public SurfaceColor(int r, int g, int b, int t, int m)
     {
         if (r < 0 || r > 255)
+        {
             throw new IllegalArgumentException("Red out of bounds");
+        }
         reflectedRed = r;
         if (g < 0 || g > 255)
+        {
             throw new IllegalArgumentException("Green out of bounds");
+        }
         reflectedGreen = g;
         if (b < 0 || b > 255)
+        {
             throw new IllegalArgumentException("Blue out of bounds");
+        }
         reflectedBlue = b;
         if (t < 0 || t > 255)
+        {
             throw new IllegalArgumentException("Transparency out of bounds");
+        }
         transparency = t;
         if (m < 0 || m > 255)
+        {
             throw new IllegalArgumentException("Reflectiveness out of bounds");
+        }
         reflectiveness = m;
     }
     
@@ -48,17 +58,25 @@ public class SurfaceColor
     public SurfaceColor(int r, int g, int b, int m)
     {
         if (r < 0 || r > 255)
+        {
             throw new IllegalArgumentException("Red out of bounds");
+        }
         reflectedRed = r;
         if (g < 0 || g > 255)
+        {
             throw new IllegalArgumentException("Green out of bounds");
+        }
         reflectedGreen = g;
         if (b < 0 || b > 255)
+        {
             throw new IllegalArgumentException("Blue out of bounds");
+        }
         reflectedBlue = b;
         transparency = 0;
         if (m < 0 || m > 255)
+        {
             throw new IllegalArgumentException("Reflectiveness out of bounds");
+        }
         reflectiveness = m;
     }
     
@@ -84,13 +102,19 @@ public class SurfaceColor
     public SurfaceColor(int r, int g, int b)
     {
         if (r < 0 || r > 255)
+        {
             throw new IllegalArgumentException("Red out of bounds");
+        }
         reflectedRed = r;
         if (g < 0 || g > 255)
+        {
             throw new IllegalArgumentException("Green out of bounds");
+        }
         reflectedGreen = g;
         if (b < 0 || b > 255)
+        {
             throw new IllegalArgumentException("Blue out of bounds");
+        }
         reflectedBlue = b;
         transparency = 0;
         reflectiveness = 0;
