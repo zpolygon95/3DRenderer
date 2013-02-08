@@ -119,8 +119,8 @@ public class Camera3D
     public Vector3D getPixelForRay (Vector3D ray)
     {
         Vector3D vertex = Vector3D.add(perspective, Vector3D.add(direction, Vector3D.add(Vector3D.scaleVector(directionX, -1), Vector3D.scaleVector(directionY, -1))));
-        Parallelogram3D projectionFace = new Parallelogram3D(vertex, directionX, directionY, Color.BLACK);
-        return projectionFace.getCollisionPoint(new Line3D(perspective, direction), horizResolution, vertResolution);
+        Parallelogram3D projectionFace = new Parallelogram3D(vertex, Vector3D.scaleVector(directionX, 2), Vector3D.scaleVector(directionY, 2), Color.BLACK);
+        return projectionFace.getCollisionPoint(new Line3D(perspective, ray), horizResolution, vertResolution);
     }
     
     //mutator methods

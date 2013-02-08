@@ -26,21 +26,37 @@ public class Parallelogram3D extends Shape3D
         Vector3D l2 = Vector3D.scaleVector(l1, -1);
         Vector3D l3 = Vector3D.scaleVector(l, -1);
         t2 = new TriangularPlane3D(p1, l2, l3, false, c);
-        pixMap = new Color[11][11];//setting values for the pixmap images -- eventually there will only be a constructor to handle setting pixmap values
+        pixMap = new Color[500][500];//setting values for the pixmap images -- eventually there will only be a constructor to handle setting pixmap values
         for (int x = 0; x < pixMap.length; x++)
         {
             for (int y = 0; y < pixMap[x].length; y++)
             {
-                pixMap[x][y] = Color.BLACK;
+                if (((x % 2) == 0) && ((y % 2) == 0))
+                {
+                    pixMap[x][y] = Color.BLUE;
+                }
+                else
+                {
+                    pixMap[x][y] = Color.GREEN;
+                }
             }
         }
-        for (int i = 0; i < pixMap.length; i++)//coloring the edges of the pixmap red
-        {
-            pixMap[i][0] = Color.RED;
-            pixMap[0][i] = Color.RED;
-            pixMap[i][pixMap.length - 1] = Color.RED;
-            pixMap[pixMap.length - 1][i] = Color.RED;
-        }
+        
+        
+//        for (int x = 0; x < pixMap.length; x++)
+//        {
+//            for (int y = 0; y < pixMap[x].length; y++)
+//            {
+//                pixMap[x][y] = Color.BLACK;
+//            }
+//        }
+//        for (int i = 0; i < pixMap.length; i++)//coloring the edges of the pixmap red
+//        {
+//            pixMap[i][0] = Color.RED;
+//            pixMap[0][i] = Color.RED;
+//            pixMap[i][pixMap.length - 1] = Color.RED;
+//            pixMap[pixMap.length - 1][i] = Color.RED;
+//        }
 //        pixMap[3][2] = c;
 //        pixMap[4][2] = c;
 //        pixMap[5][3] = c;
@@ -58,24 +74,26 @@ public class Parallelogram3D extends Shape3D
 //        pixMap[2][4] = c;
 //        pixMap[2][3] = c;
         
-        pixMap[4][2] = c;  //smiley face first eye
-        pixMap[4][3] = c;
-        pixMap[4][4] = c;
+//        pixMap[4][2] = c;  //smiley face first eye
+//        pixMap[4][3] = c;
+//        pixMap[4][4] = c;
+//        
+//        pixMap[6][2] = c; //smiley face second eye
+//        pixMap[6][3] = c;
+//        pixMap[6][4] = c;
+//        
+//        pixMap[3][6] = c;  //smiley face mouth
+//        pixMap[4][6] = c;
+//        pixMap[5][6] = c;
+//        pixMap[6][6] = c;
+//        pixMap[7][6] = c;
+//        pixMap[7][7] = c;
+//        pixMap[6][8] = c;
+//        pixMap[5][8] = c;
+//        pixMap[4][8] = c;
+//        pixMap[3][7] = c;
         
-        pixMap[6][2] = c; //smiley face second eye
-        pixMap[6][3] = c;
-        pixMap[6][4] = c;
-        
-        pixMap[3][6] = c;  //smiley face mouth
-        pixMap[4][6] = c;
-        pixMap[5][6] = c;
-        pixMap[6][6] = c;
-        pixMap[7][6] = c;
-        pixMap[7][7] = c;
-        pixMap[6][8] = c;
-        pixMap[5][8] = c;
-        pixMap[4][8] = c;
-        pixMap[3][7] = c;
+//        pixMap[5][5] = c;
     }
     
     //accessor methods
@@ -107,8 +125,8 @@ public class Parallelogram3D extends Shape3D
     @Override
     public RayCollisionResult getRayColorandPos(Line3D ray)
     {
-        Vector3D point = getCollisionPoint(ray, 11, 11);//finds the "coordinate" on the parallelogram where the collision took place
-        if (point == null)
+        Vector3D point = getCollisionPoint(ray, 500, 500);//finds the "coordinate" on the parallelogram where the collision took place
+        if (point == null || point.getZ() == 1)
         {
             return null;
         }
@@ -143,16 +161,16 @@ public class Parallelogram3D extends Shape3D
     public Vector3D getCollisionPoint(Line3D ray, int horizRes, int vertRes)
     {
         Vector3D point = t1.getCollisionPoint(ray, horizRes, vertRes);
-        if (point != null)
+        if (point != null && point.getZ() == 0)
         {
             return point;
         }
         point = t2.getCollisionPoint(ray, horizRes, vertRes);
-        if (point != null)
+        if (point != null && point.getZ() == 0)
         {
             return new Vector3D(horizRes - point.getY() - 1, horizRes - point.getX() - 1, 0);
         }
-        return null;
+        return t1.getCollisionPoint(ray, horizRes, vertRes);
     }
     
     /**

@@ -262,6 +262,7 @@ public class SceneGraph
     {
         BufferedImage image = new BufferedImage(camera.getHorizRes(), camera.getVertRes(), BufferedImage.TYPE_INT_RGB);
         Graphics2D g = image.createGraphics();
+        g.setColor(Color.WHITE);
         
         for (Shape3D s : nodeTree)
         {
@@ -271,10 +272,20 @@ public class SceneGraph
                 Polygon[] p = new Polygon[vertices.length];
                 for (int x = 0; x < vertices.length; x++)
                 {
+                    int[] xPoints = new int[vertices[x].length];
+                    int[] yPoints = new int[vertices[x].length];
                     for (int y = 0; y < vertices[x].length; y++)
                     {
-                        //unfinished obviously
+                        Vector3D coord = camera.getPixelForRay(Vector3D.subtract(vertices[x][y], camera.getPosition()));
+                        System.out.println(Vector3D.subtract(vertices[x][y], camera.getPosition()));
+                        xPoints[y] = (int)coord.getX();
+                        yPoints[y] = (int)coord.getY();
                     }
+                    p[x] = new Polygon(xPoints, yPoints, vertices[x].length);
+                }
+                for (Polygon polygon : p)
+                {
+                    g.draw(polygon);
                 }
             }
             else

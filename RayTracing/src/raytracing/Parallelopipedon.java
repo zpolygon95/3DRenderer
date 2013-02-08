@@ -71,10 +71,10 @@ public class Parallelopipedon extends Shape3D
     @Override
     public Vector3D[][] getCorners()
     {
-        Vector3D[][] vertices = new Vector3D[6][4];
+        Vector3D[][] vertices = new Vector3D[pGrams.length][4];
         for (int x = 0; x < pGrams.length; x++)
         {
-            System.arraycopy(pGrams[x].getCorners()[x], 0, vertices[x], 0, 4);
+            vertices[x] = pGrams[x].getCorners()[0];
         }
         return vertices;
     }

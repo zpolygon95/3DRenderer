@@ -67,7 +67,7 @@ public class AnimationPane extends JPanel
         AmbientLightSource als = new AmbientLightSource(new Color(100, 100, 100));
         PointLightSource pls = new PointLightSource(new Vector3D(10, 10, 10), Color.WHITE);
         
-        sg = new SceneGraph(null, null, 40, Color.BLACK);
+        sg = new SceneGraph(null, null, 40, Color.WHITE);
         sg.addLight(als);
         sg.addLight(pls);
         //sg.addShape(t1);
@@ -80,7 +80,7 @@ public class AnimationPane extends JPanel
         sg.addShape(pDon6);
         sg.addShape(pDon7);
         //sg.addShape(new Parallelogram3D(new Vector3D(2, 3, 0), l3, l2, Color.WHITE));
-        sg.addShape(gp);
+        //sg.addShape(gp);
         
         
         status = 0;
@@ -104,27 +104,30 @@ public class AnimationPane extends JPanel
         setBackground(Color.WHITE);
         super.paint(g);
         Graphics2D g2 = (Graphics2D) g;//we create a 2d graphics context in order to draw the buffered image we get from the scene graph
-        g.setColor(Color.BLACK);
-        g.drawString("Rendering: " + (int)(100 * ((double)status / (double)camera.getVertRes())) + "% Complete", 100, 75);
-        g.setColor(Color.RED);
-        g.fillRoundRect(100, 100, (int)(200 * ((double)status / (double)camera.getVertRes())), 20, 10, 10);
-        g.setColor(Color.BLACK);
-        g.drawRoundRect(100, 100, 200, 20, 10, 10);
+        frame = sg.getPolygonRenderedScene(camera);
+        g2.drawImage(frame, null, 0, 0);
         
-        if (status >= camera.getVertRes())
-        {
-            g2.drawImage(frame, null, 0, 0);
-        }
-        else
-        {
-            for(int x = 0; x < camera.getHorizRes(); x++)
-            {
-                //if (x == 396)
-                    //System.out.println(x + ", " + status + ", " + camera.getHorizRes());
-                frame.setRGB(x, status, sg.getPixelColor(camera, x, status));
-            }
-            status++;
-        }
+//        g.setColor(Color.BLACK);
+//        g.drawString("Rendering: " + (int)(100 * ((double)status / (double)camera.getVertRes())) + "% Complete", 100, 75);
+//        g.setColor(Color.RED);
+//        g.fillRoundRect(100, 100, (int)(200 * ((double)status / (double)camera.getVertRes())), 20, 10, 10);
+//        g.setColor(Color.BLACK);
+//        g.drawRoundRect(100, 100, 200, 20, 10, 10);
+//        
+//        if (status >= camera.getVertRes())
+//        {
+//            g2.drawImage(frame, null, 0, 0);
+//        }
+//        else
+//        {
+//            for(int x = 0; x < camera.getHorizRes(); x++)
+//            {
+//                //if (x == 396)
+//                    //System.out.println(x + ", " + status + ", " + camera.getHorizRes());
+//                frame.setRGB(x, status, sg.getPixelColor(camera, x, status));
+//            }
+//            status++;
+//        }
         
 //        g.setColor(Color.WHITE);
 //        g.drawString("Position: " + camera.getPosition(), 0, 10);//print some values on the screen

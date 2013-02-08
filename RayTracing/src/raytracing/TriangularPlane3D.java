@@ -139,15 +139,16 @@ public class TriangularPlane3D extends Shape3D
         double sI = Vector3D.getDotProduct(coplanarCollision, leg2PerpDot) / Vector3D.getDotProduct(leg1, leg2PerpDot);
         double tI = Vector3D.getDotProduct(coplanarCollision, leg1PerpDot) / Vector3D.getDotProduct(leg2, leg1PerpDot);
         
-        if (!((sI >= 0) && (tI >= 0) && (sI + tI <= 1)))//if the collision point lies outside the bounds of the triangle
+        if (((sI >= 0) && (tI >= 0) && (sI + tI <= 1)))//if the collision point lies inside the bounds of the triangle
         {
-            return null;
+            int sIi = (int)(sI * vertRes);
+            int tIi = (int)(tI * horizRes);
+            return new Vector3D(tIi, sIi, 0);//return regular coordinates
         }
         
         int sIi = (int)(sI * vertRes);
         int tIi = (int)(tI * horizRes);
-        
-        return new Vector3D(tIi, sIi, 0);
+        return new Vector3D(tIi, sIi, 1);//return coordinates that specify the collision took place outside the bounds of the triangle
     }
     
     //accessor methods
