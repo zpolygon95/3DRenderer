@@ -34,7 +34,7 @@ public class AnimationPane extends JPanel
         cPos = new Vector3D(2, 3, 8);
         camera = new Camera3D(cPos, new Vector3D(0, 0, -1), new Vector3D(1, 0, 0), 1000, 1000, Math.PI/4, Math.PI/4);
         
-        Vert = new Vector3D(3, 1, 1);
+        Vert = new Vector3D(4, 1, 1);
         l1 = new Vector3D(0, 0, 1);
         l2 = new Vector3D(1, 0, 0);
         l3 = Vector3D.getCrossProduct(l1, l2);
@@ -48,13 +48,13 @@ public class AnimationPane extends JPanel
         colors[5] = Color.WHITE;
         
         pDon = new Parallelopipedon(Vert, l1, l2, l3, colors);
-        Parallelopipedon pDon1 = new Parallelopipedon(new Vector3D(3, 1, -1), l1, l2, l3, colors);
-        Parallelopipedon pDon2 = new Parallelopipedon(new Vector3D(3, 3, -1), l1, l2, l3, colors);
-        Parallelopipedon pDon3 = new Parallelopipedon(new Vector3D(3, 3, 1), l1, l2, l3, colors);
+        Parallelopipedon pDon1 = new Parallelopipedon(new Vector3D(4, 1, -2), l1, l2, l3, colors);
+        Parallelopipedon pDon2 = new Parallelopipedon(new Vector3D(4, 4, -2), l1, l2, l3, colors);
+        Parallelopipedon pDon3 = new Parallelopipedon(new Vector3D(4, 4, 1), l1, l2, l3, colors);
         Parallelopipedon pDon4 = new Parallelopipedon(new Vector3D(1, 1, 1), l1, l2, l3, colors);
-        Parallelopipedon pDon5 = new Parallelopipedon(new Vector3D(1, 1, -1), l1, l2, l3, colors);
-        Parallelopipedon pDon6 = new Parallelopipedon(new Vector3D(1, 3, -1), l1, l2, l3, colors);
-        Parallelopipedon pDon7 = new Parallelopipedon(new Vector3D(1, 3, 1), l1, l2, l3, colors);
+        Parallelopipedon pDon5 = new Parallelopipedon(new Vector3D(1, 1, -2), l1, l2, l3, colors);
+        Parallelopipedon pDon6 = new Parallelopipedon(new Vector3D(1, 4, -2), l1, l2, l3, colors);
+        Parallelopipedon pDon7 = new Parallelopipedon(new Vector3D(1, 4, 1), l1, l2, l3, colors);
         
         pGram1 = new Parallelogram3D(new Vector3D(2, 1, 1), new Vector3D(0, 1, 0), new Vector3D(0, 0, 1), Color.LIGHT_GRAY);
         pGram2 = new Parallelogram3D(new Vector3D(3, 1, 0), new Vector3D(0, 1, 0), new Vector3D(1, 0, 0), Color.LIGHT_GRAY);
@@ -67,7 +67,7 @@ public class AnimationPane extends JPanel
         AmbientLightSource als = new AmbientLightSource(new Color(100, 100, 100));
         PointLightSource pls = new PointLightSource(new Vector3D(10, 10, 10), Color.WHITE);
         
-        sg = new SceneGraph(null, null, 40, Color.WHITE);
+        sg = new SceneGraph(null, null, 40, Color.BLACK);
         sg.addLight(als);
         sg.addLight(pls);
         //sg.addShape(t1);
@@ -80,7 +80,7 @@ public class AnimationPane extends JPanel
         sg.addShape(pDon6);
         sg.addShape(pDon7);
         //sg.addShape(new Parallelogram3D(new Vector3D(2, 3, 0), l3, l2, Color.WHITE));
-        //sg.addShape(gp);
+        sg.addShape(gp);
         
         
         status = 0;
@@ -106,7 +106,10 @@ public class AnimationPane extends JPanel
         Graphics2D g2 = (Graphics2D) g;//we create a 2d graphics context in order to draw the buffered image we get from the scene graph
         frame = sg.getPolygonRenderedScene(camera);
         g2.drawImage(frame, null, 0, 0);
-        
+        g2.setColor(Color.WHITE);
+        g2.drawString("Camera direction: " + camera.getDirection(), 10, 10);
+        g2.drawString("X: " + camera.getDirectionX(), 10, 20);
+        g2.drawString("Y: " + camera.getDirectionY(), 10, 30);
 //        g.setColor(Color.BLACK);
 //        g.drawString("Rendering: " + (int)(100 * ((double)status / (double)camera.getVertRes())) + "% Complete", 100, 75);
 //        g.setColor(Color.RED);
@@ -128,7 +131,7 @@ public class AnimationPane extends JPanel
 //            }
 //            status++;
 //        }
-        
+//        
 //        g.setColor(Color.WHITE);
 //        g.drawString("Position: " + camera.getPosition(), 0, 10);//print some values on the screen
 //        g.drawString("Tilt: " + cTilt + "        Direction: " + camera.getDirection(), 0, 20);
@@ -183,38 +186,32 @@ public class AnimationPane extends JPanel
                 repaint();
                 break;
             case KeyEvent.VK_UP:// rotate camera up
-                cTilt += Math.PI/16;
-                camera.pointInDirection(cTilt, cYaw, cRoll);
+                camera.rotate(0, 0, Math.PI/16);
                 refreshImage();
                 repaint();
                 break;
             case KeyEvent.VK_DOWN:// rotate camera down
-                cTilt -= Math.PI/16;
-                camera.pointInDirection(cTilt, cYaw, cRoll);
+                camera.rotate(0, 0, -Math.PI/16);
                 refreshImage();
                 repaint();
                 break;
             case KeyEvent.VK_LEFT:// rotate camera left
-                cYaw -= Math.PI/16;
-                camera.pointInDirection(cTilt, cYaw, cRoll);
+                camera.rotate(0, Math.PI/16, 0);
                 refreshImage();
                 repaint();
                 break;
             case KeyEvent.VK_RIGHT:// rotate camera right
-                cYaw += Math.PI/16;
-                camera.pointInDirection(cTilt, cYaw, cRoll);
+                camera.rotate(0, -Math.PI/16, 0);
                 refreshImage();
                 repaint();
                 break;
             case KeyEvent.VK_PAGE_UP:// roll camera clockwise
-                cRoll += Math.PI/16;
-                camera.pointInDirection(cTilt, cYaw, cRoll);
+                camera.rotate(Math.PI/16, 0, 0);
                 refreshImage();
                 repaint();
                 break;
             case KeyEvent.VK_PAGE_DOWN:// roll camera counter-clockwise
-                cRoll -= Math.PI/16;
-                camera.pointInDirection(cTilt, cYaw, cRoll);
+                camera.rotate(-Math.PI/16, 0, 0);
                 refreshImage();
                 repaint();
                 break;

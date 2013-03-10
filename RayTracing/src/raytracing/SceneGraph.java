@@ -276,10 +276,19 @@ public class SceneGraph
                     int[] yPoints = new int[vertices[x].length];
                     for (int y = 0; y < vertices[x].length; y++)
                     {
-                        Vector3D coord = camera.getPixelForRay(Vector3D.subtract(vertices[x][y], camera.getPosition()));
-                        System.out.println(Vector3D.subtract(vertices[x][y], camera.getPosition()));
-                        xPoints[y] = (int)coord.getX();
-                        yPoints[y] = (int)coord.getY();
+                        Vector3D coord = Vector3D.ZERO_VECTOR;
+                        try
+                        {
+                            coord = camera.getPixelForRay(Vector3D.subtract(vertices[x][y], camera.getPosition()));
+                            xPoints[y] = (int)coord.getX();
+                            yPoints[y] = (int)coord.getY();
+                        }
+                        catch (NullPointerException e)
+                        {
+                            System.out.print(">>");
+                            System.out.println(coord);
+                            System.out.println(Vector3D.subtract(vertices[x][y], camera.getPosition()));
+                        }
                     }
                     p[x] = new Polygon(xPoints, yPoints, vertices[x].length);
                 }

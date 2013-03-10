@@ -50,6 +50,4 @@ public class Launch
         frame.add(panel);
         frame.setVisible(true);
     }
-    
-    
 }

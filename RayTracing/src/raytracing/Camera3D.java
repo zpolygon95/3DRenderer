@@ -141,6 +141,21 @@ public class Camera3D
         directionY = Vector3D.getCrossProduct(direction, directionX);
     }
     
+    public void rotate(double x, double y, double z)
+    {
+        direction = Vector3D.rotateVectorX(direction, x);
+        direction = Vector3D.rotateVectorY(direction, y);
+        direction = Vector3D.rotateVectorZ(direction, z);
+        
+        directionX = Vector3D.rotateVectorX(directionX, x);
+        directionX = Vector3D.rotateVectorY(directionX, y);
+        directionX = Vector3D.rotateVectorZ(directionX, z);
+        
+        directionY = Vector3D.rotateVectorX(directionY, x);
+        directionY = Vector3D.rotateVectorY(directionY, y);
+        directionY = Vector3D.rotateVectorZ(directionY, z);
+    }
+    
     public void moveForward()
     {
         perspective = Vector3D.add(perspective, direction);

@@ -136,6 +136,9 @@ public class Vector3D
         double x = v.x;
         double y = (Math.cos(theta) * v.y) + (-Math.sin(theta) * v.z);
         double z = (Math.sin(theta) * v.y) + (Math.cos(theta) * v.z);
+        x = round(x, 10);
+        y = round(y, 10);
+        z = round(z, 10);
         return new Vector3D(x, y, z);
     }
     
@@ -150,6 +153,9 @@ public class Vector3D
         double x = (Math.cos(theta) * v.x) + (Math.sin(theta) * v.z);
         double y = v.y;
         double z = (-Math.sin(theta) * v.x) + (Math.cos(theta) * v.z);
+        x = round(x, 10);
+        y = round(y, 10);
+        z = round(z, 10);
         return new Vector3D(x, y, z);
     }
     
@@ -164,6 +170,9 @@ public class Vector3D
         double x = (Math.cos(theta) * v.x) + (-Math.sin(theta) * v.y);
         double y = (Math.sin(theta) * v.x) + (Math.cos(theta) * v.y);
         double z = v.z;
+        x = round(x, 10);
+        y = round(y, 10);
+        z = round(z, 10);
         return new Vector3D(x, y, z);
     }
     
