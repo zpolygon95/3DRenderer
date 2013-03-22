@@ -1,5 +1,6 @@
 package objects.geometry;
 
+import java.awt.Color;
 import util.RayCollisionResult;
 import util.Vector3D;
 /**
@@ -8,6 +9,9 @@ import util.Vector3D;
  */
 public abstract class Shape3D
 {
+    public Color backColor = Color.RED;
+    public Color edgeColor = Color.BLACK;
+    
     /**
      * Finds the point of intersection between a ray and the object, and the color of that object at 100% intensity white light
      * @param ray - the ray to be checked in the collision
@@ -32,4 +36,14 @@ public abstract class Shape3D
      * 
      */
     public abstract Vector3D[][] getCorners();
+
+    public Color getBackColor()
+    {
+        return backColor;
+    }
+    
+    public Color getEdgeColor()
+    {
+        return edgeColor;
+    }
 }

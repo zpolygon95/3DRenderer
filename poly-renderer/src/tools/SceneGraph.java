@@ -269,24 +269,27 @@ public class SceneGraph
     {
         BufferedImage image = new BufferedImage(camera.getHorizRes(), camera.getVertRes(), BufferedImage.TYPE_INT_RGB);
         Graphics2D g = image.createGraphics();
-        g.setColor(Color.WHITE);
         
+        ArrayList<Integer> distances = new ArrayList();
+        ArrayList<Polygon> polygons = new ArrayList();
         for (Shape3D s : nodeTree)
         {
             Vector3D[][] vertices = s.getCorners();
             if (vertices != null)
             {
-                Polygon[] p = new Polygon[vertices.length];
                 for (int x = 0; x < vertices.length; x++)
                 {
                     int[] xPoints = new int[vertices[x].length];
                     int[] yPoints = new int[vertices[x].length];
+                    int distSum = 0;
                     for (int y = 0; y < vertices[x].length; y++)
                     {
                         Vector3D coord = Vector3D.ZERO_VECTOR;
                         try
                         {
-                            coord = camera.getPixelForRay(Vector3D.subtract(vertices[x][y], camera.getPosition()));
+                            Vector3D ray = Vector3D.subtract(vertices[x][y], camera.getPosition());
+                            distSum += ray.getMagnitude();
+                            coord = camera.getPixelForRay(ray);
                             xPoints[y] = (int)coord.getX();
                             yPoints[y] = (int)coord.getY();
                         }
@@ -297,10 +300,15 @@ public class SceneGraph
                             System.out.println(Vector3D.subtract(vertices[x][y], camera.getPosition()));
                         }
                     }
-                    p[x] = new Polygon(xPoints, yPoints, vertices[x].length);
+                    distances.add(distSum / vertices[x].length);
+                    polygons.add(new Polygon(xPoints, yPoints, vertices[x].length));
                 }
-                for (Polygon polygon : p)
+                polygons = sortByIntegerArray(polygons, distances);
+                for (Polygon polygon : polygons)
                 {
+                    g.setColor(new Color(245, 245, 50));
+                    g.fill(polygon);
+                    g.setColor(Color.WHITE);
                     g.draw(polygon);
                 }
             }
@@ -311,5 +319,27 @@ public class SceneGraph
         }
         
         return image;
+    }
+
+    private ArrayList<Polygon> sortByIntegerArray(ArrayList<Polygon> polygons, ArrayList<Integer> distances)
+    {
+        for (int x = polygons.size(); x > 0; x--)
+        {
+            for (int i = 0; i < x - 1; i++)
+            {
+                if (distances.get(i) < distances.get(i + 1))
+                {
+                    Polygon p1 = polygons.get(i);
+                    Polygon p2 = polygons.get(i+1);
+                    Integer i1 = distances.get(i);
+                    Integer i2 = distances.get(i + 1);
+                    polygons.set(i, p2);
+                    polygons.set(i + 1, p1);
+                    distances.set(i, i2);
+                    distances.set(i + 1, i1);
+                }
+            }
+        }
+        return polygons;
     }
 }

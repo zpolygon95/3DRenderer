@@ -118,11 +118,9 @@ public class Vector3D
      */
     public static Vector3D getVectorAngle(Vector3D v)
     {
-        Vector3D v2 = normalize(v);
-        double XAngle = Math.toDegrees(Math.acos(getDotProduct(v2, new Vector3D(1, 0, 0))));
-        double YAngle = Math.toDegrees(Math.acos(getDotProduct(v2, new Vector3D(0, 1, 0))));
-        double ZAngle = Math.toDegrees(Math.acos(getDotProduct(v2, new Vector3D(0, 0, 1))));
-        return new Vector3D(XAngle, YAngle, ZAngle);
+        double XZAngle = Math.toDegrees(Math.acos(getDotProduct(new Vector3D(1, 0, 0), normalize(new Vector3D(v.x, 0, v.z)))));
+        double XYAngle = Math.toDegrees(Math.acos(getDotProduct(new Vector3D(1, 0, 0), normalize(new Vector3D(v.x, v.y, 0)))));
+        return new Vector3D(XZAngle, XYAngle, 0);
     }
     
     /**

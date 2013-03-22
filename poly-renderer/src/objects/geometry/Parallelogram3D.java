@@ -28,23 +28,18 @@ public class Parallelogram3D extends Shape3D
         Vector3D l2 = Vector3D.scaleVector(l1, -1);
         Vector3D l3 = Vector3D.scaleVector(l, -1);
         t2 = new TriangularPlane3D(p1, l2, l3, false, c);
-        pixMap = new Color[500][500];//setting values for the pixmap images -- eventually there will only be a constructor to handle setting pixmap values
-        for (int x = 0; x < pixMap.length; x++)
-        {
-            for (int y = 0; y < pixMap[x].length; y++)
-            {
-                if (((x % 2) == 0) && ((y % 2) == 0))
-                {
-                    pixMap[x][y] = Color.BLUE;
-                }
-                else
-                {
-                    pixMap[x][y] = Color.GREEN;
-                }
-            }
-        }
+        pixMap = new Color[1][10];//setting values for the pixmap images -- eventually there will only be a constructor to handle setting pixmap values
         
-        
+        pixMap[0][0] = Color.WHITE;
+        pixMap[0][1] = Color.YELLOW.darker();
+        pixMap[0][2] = Color.YELLOW.darker();
+        pixMap[0][3] = Color.YELLOW.darker();
+        pixMap[0][4] = Color.YELLOW.darker();
+        pixMap[0][5] = Color.YELLOW.darker();
+        pixMap[0][6] = Color.YELLOW.darker();
+        pixMap[0][7] = Color.YELLOW.darker();
+        pixMap[0][8] = Color.YELLOW.darker();
+        pixMap[0][9] = Color.YELLOW.darker();
 //        for (int x = 0; x < pixMap.length; x++)
 //        {
 //            for (int y = 0; y < pixMap[x].length; y++)
@@ -127,7 +122,7 @@ public class Parallelogram3D extends Shape3D
     @Override
     public RayCollisionResult getRayColorandPos(Line3D ray)
     {
-        Vector3D point = getCollisionPoint(ray, 500, 500);//finds the "coordinate" on the parallelogram where the collision took place
+        Vector3D point = getCollisionPoint(ray, 1, 10);//finds the "coordinate" on the parallelogram where the collision took place
         if (point == null || point.getZ() == 1)
         {
             return null;
