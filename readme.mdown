@@ -1,0 +1,7 @@
+#	Under Construction
+
+I have decided that, after quite a long time, I should make an effort to fix
+this project. It is likely that the entire structure of the project will
+change, and I hope to add some more features
+
+##	More information to come later
