@@ -4,4 +4,22 @@ I have decided that, after quite a long time, I should make an effort to fix
 this project. It is likely that the entire structure of the project will
 change, and I hope to add some more features
 
-##	More information to come later
+Update: It lives!
+
+I have redone the package structure, and the project now lives at
+`io.polygon.polyrenderer`. I have preserved the old packages for posterity,
+but I expect that I will get rid of them after too long.
+
+## How to compile
+
+Make your current directory the root of the git project, and compile the
+contents of `sources.txt`.
+
+To compile:
+	javac @sources.txt
+
+To run the test file:
+	java io.polygon.polyrenderer.tools.RendererTest;
+
+To regenerate sources.txt:
+	find ./io -name "*.java" > sources.txt
